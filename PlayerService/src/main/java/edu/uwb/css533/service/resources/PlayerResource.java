@@ -15,6 +15,7 @@ public class PlayerResource {
     private Jdbi jdbi;
     private PlayerDao dao;
     private int user_id;
+    private boolean logged_in;
 
     public PlayerResource(Jdbi jdbi, PlayerDao dao) {
         this.jdbi = jdbi;
@@ -27,12 +28,11 @@ public class PlayerResource {
 
         Integer result = dao.findUserIdByUsername(username);
         if(result == null) {
-            dao.insert(username, password, user_id++);
+            dao.insert(username, password, user_id++, false);
             return Response.ok("User created.").build();
         } else {
             return Response.ok("User already exists. " + result).build();
         }
-
     }
 
     @GET
@@ -43,7 +43,14 @@ public class PlayerResource {
         if (result == null) {
             return Response.ok("User does not exist.").build();
         } else {
-            return Response.ok("Successfully logged in. " + result).build();
+            String correctPassword = dao.findPasswordByUserId(result);
+            int compare = correctPassword.compareTo(password);
+            if(compare != 0) {
+                return Response.ok("Incorrect Password. " + result).build();
+            } else {
+                dao.logIn(true, result);
+                return Response.ok("Successfully logged in. " + result).build();
+            }
         }
     }
 }

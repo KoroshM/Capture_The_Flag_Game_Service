@@ -18,7 +18,7 @@ import java.time.Duration;
 // http://server:port/path?param=something
 
 //path (part of URL)
-@Path("/player")
+@Path("/capture_the_flag")
 //@Produces(MediaType.APPLICATION_JSON)
 public class PlayerResource {
     private int user_id;
@@ -33,7 +33,7 @@ public class PlayerResource {
     }
 
     @GET
-    @Path("/create_new_user")
+    @Path("/new_user")
     public Response createNewUser(@QueryParam("username") String username, @QueryParam("password") String password) {
 
         try {
@@ -55,9 +55,34 @@ public class PlayerResource {
 
     public Response getNewUserRequest(String username, String password) throws Exception {
         HttpRequest request = createNewUserRequest(username, password);
-
         String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        return Response.ok(response).build();
 
+    }
+
+    @GET
+    @Path("/login")
+    public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
+
+        try {
+            return getLogInAttempt(username, password);
+        } catch (Exception e) {
+            return Response.ok("Exception thrown" + e.getMessage()).build();
+        }
+    }
+
+    public HttpRequest createNewLogInAttempt(String username, String password) throws URISyntaxException {
+        return HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8090/player/login?username=" + username
+                        + "&password=" + password))
+                .GET()
+                .timeout(Duration.ofSeconds(10))
+                .build();
+    }
+
+    public Response getLogInAttempt(String username, String password) throws Exception {
+        HttpRequest request = createNewLogInAttempt(username, password);
+        String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
         return Response.ok(response).build();
 
     }
