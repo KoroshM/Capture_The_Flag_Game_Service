@@ -15,13 +15,13 @@ import javax.ws.rs.core.Response;
 //path (part of URL)
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
-public class UserResource {
+public class PlayerResource {
 
     private Jdbi jdbi;
     private UserDao dao;
     private int user_id;
 
-    public UserResource(Jdbi jdbi, UserDao dao) {
+    public PlayerResource(Jdbi jdbi, UserDao dao) {
         this.jdbi = jdbi;
         this.dao = dao;
     }

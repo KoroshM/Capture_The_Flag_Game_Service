@@ -1,6 +1,6 @@
 package edu.uwb.css533.service;
 
-import edu.uwb.css533.service.resources.UserResource;
+import edu.uwb.css533.service.resources.PlayerResource;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -31,7 +31,7 @@ public class GameServiceApplication extends Application<GameServiceConfiguration
         final Jdbi jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
         final UserDao user_dao = jdbi.onDemand(UserDao.class);
         //final GameDao game_dao = jdbi.onDemand(GameDao.class);
-        environment.jersey().register(new UserResource(jdbi, user_dao));
+        environment.jersey().register(new PlayerResource(jdbi, user_dao));
         //environment.jersey().register(new GameResource(jdbi, game_dao));
     }
 
