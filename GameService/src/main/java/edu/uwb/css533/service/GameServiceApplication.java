@@ -29,9 +29,8 @@ public class GameServiceApplication extends Application<GameServiceConfiguration
                     final Environment environment) {
         final JdbiFactory factory = new JdbiFactory();
         final Jdbi jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
-        final UserDao user_dao = jdbi.onDemand(UserDao.class);
         //final GameDao game_dao = jdbi.onDemand(GameDao.class);
-        environment.jersey().register(new PlayerResource(jdbi, user_dao));
+        environment.jersey().register(new PlayerResource());
         //environment.jersey().register(new GameResource(jdbi, game_dao));
     }
 

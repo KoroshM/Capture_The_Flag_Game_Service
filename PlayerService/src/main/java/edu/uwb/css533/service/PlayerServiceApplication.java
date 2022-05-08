@@ -1,8 +1,12 @@
 package edu.uwb.css533.service;
 
+import edu.uwb.css533.service.db.PlayerDao;
+import edu.uwb.css533.service.resources.PlayerResource;
 import io.dropwizard.Application;
+import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.jdbi.v3.core.Jdbi;
 
 public class PlayerServiceApplication extends Application<PlayerServiceConfiguration> {
 
@@ -24,6 +28,10 @@ public class PlayerServiceApplication extends Application<PlayerServiceConfigura
     public void run(final PlayerServiceConfiguration configuration,
                     final Environment environment) {
         // TODO: implement application
+        final JdbiFactory factory = new JdbiFactory();
+        final Jdbi jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
+        final PlayerDao player_dao = jdbi.onDemand(PlayerDao.class);
+        environment.jersey().register(new PlayerResource(jdbi, player_dao));
     }
 
 }

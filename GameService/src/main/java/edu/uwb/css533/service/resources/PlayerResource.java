@@ -1,6 +1,5 @@
 package edu.uwb.css533.service.resources;
 
-import edu.uwb.css533.service.UserDao;
 import org.jdbi.v3.core.Jdbi;
 
 import javax.ws.rs.GET;
@@ -9,47 +8,57 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 
 // http://server:port/path?param=something
 
 //path (part of URL)
-@Path("/users")
-@Produces(MediaType.APPLICATION_JSON)
+@Path("/player")
+//@Produces(MediaType.APPLICATION_JSON)
 public class PlayerResource {
-
-    private Jdbi jdbi;
-    private UserDao dao;
     private int user_id;
+    private static HttpClient HTTP_CLIENT;
 
-    public PlayerResource(Jdbi jdbi, UserDao dao) {
-        this.jdbi = jdbi;
-        this.dao = dao;
+
+    public PlayerResource() {
+        HTTP_CLIENT = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .build();
     }
 
     @GET
     @Path("/create_new_user")
     public Response createNewUser(@QueryParam("username") String username, @QueryParam("password") String password) {
 
-        Integer result = dao.findUserIdByUsername(username);
-        if(result == null) {
-            dao.insert(username, password, user_id++);
-            return Response.ok("User created.").build();
-        } else {
-            return Response.ok("User already exists. " + result).build();
+        try {
+            return getNewUserRequest(username, password);
+        } catch (Exception e) {
+            return Response.ok("Exception thrown" + e.getMessage()).build();
         }
 
     }
 
-    @GET
-    @Path("/login")
-    public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
+    public HttpRequest createNewUserRequest(String username, String password) throws URISyntaxException {
+        return HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8090/player/create_new_user?username=" + username
+                        + "&password=" + password))
+                .GET()
+                .timeout(Duration.ofSeconds(10))
+                .build();
+    }
 
-        Integer result = dao.findUserIdByUsername(username);
-        if(result == null) {
-            return Response.ok("User does not exist.").build();
-        } else {
-            return Response.ok("Successfully logged in. " + result).build();
-        }
+    public Response getNewUserRequest(String username, String password) throws Exception {
+        HttpRequest request = createNewUserRequest(username, password);
+
+        String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+
+        return Response.ok(response).build();
 
     }
 

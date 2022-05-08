@@ -1,0 +1,4 @@
+edu/uwb/css533/service/PlayerServiceApplication.class
+edu/uwb/css533/service/resources/PlayerResource.class
+edu/uwb/css533/service/db/PlayerDao.class
+edu/uwb/css533/service/PlayerServiceConfiguration.class
