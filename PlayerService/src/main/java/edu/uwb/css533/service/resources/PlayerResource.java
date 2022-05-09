@@ -31,7 +31,7 @@ public class PlayerResource {
             dao.insert(username, password, user_id++, false);
             return Response.ok("User created.").build();
         } else {
-            return Response.ok("User already exists. " + result).build();
+            return Response.ok("User already exists.").build();
         }
     }
 
@@ -46,10 +46,10 @@ public class PlayerResource {
             String correctPassword = dao.findPasswordByUserId(result);
             int compare = correctPassword.compareTo(password);
             if(compare != 0) {
-                return Response.ok("Incorrect Password. " + result).build();
+                return Response.ok("Incorrect Password.").build();
             } else {
                 dao.logIn(true, result);
-                return Response.ok("Successfully logged in. " + result).build();
+                return Response.ok("Successfully logged in.").build();
             }
         }
     }
