@@ -22,7 +22,6 @@ public class Main {
         String username = "korosh"; //must be new user
         String password = "password";
 
-
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://localhost:8080/capture_the_flag/new_user?username=" + username
@@ -47,8 +46,6 @@ public class Main {
         } catch (URISyntaxException e) {
             System.out.println(e.getMessage());
         }
-
-
 
         //Test 2 - error condition
         username = "nayana"; //must be existing user
@@ -251,8 +248,8 @@ public class Main {
         }
 
         //Test 9 - error condition
-        userId = 1; //user is logged in, session exists, and session is not full
-        int sessionId = 123;
+        userId = 1; //user is logged in, session exists, and session is full
+        sessionId = 123;
 
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -265,12 +262,120 @@ public class Main {
                 String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
                 System.out.println(response);
 
-                int check = response.compareTo("Player joined " + sessionId + ".");
+                int check = response.compareTo("Player cannot join " + sessionId + ". The session is full.");
 
                 if(check == 0) {
-                    System.out.println("Test 8 is successful.");
+                    System.out.println("Test 9 is successful.");
                 } else {
-                    System.out.println("Test 8 is not successful.");
+                    System.out.println("Test 9 is not successful.");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (URISyntaxException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Test 10 - normal path
+        sessionId = 123; //at least two players are in the session
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/capture_the_flag/start_game?session_id=" + sessionId))
+                    .GET()
+                    .timeout(Duration.ofSeconds(10))
+                    .build();
+            try {
+                String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+                System.out.println(response);
+
+                int check = response.compareTo("Game has begun. Here is your flag and target codes.");
+
+                if(check == 0) {
+                    System.out.println("Test 10 is successful.");
+                } else {
+                    System.out.println("Test 10 is not successful.");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (URISyntaxException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Test 11 - error condition
+        sessionId = 123; //session does not have at least two players
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/capture_the_flag/start_game?session_id=" + sessionId))
+                    .GET()
+                    .timeout(Duration.ofSeconds(10))
+                    .build();
+            try {
+                String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+                System.out.println(response);
+
+                int check = response.compareTo("Game could not begin. Please add more players");
+
+                if(check == 0) {
+                    System.out.println("Test 11 is successful.");
+                } else {
+                    System.out.println("Test 11 is not successful.");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (URISyntaxException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Test 12 - normal path
+        int QRCodeId = 12345; //code matches flag being played
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/capture_the_flag/find_feature?code_id=" + QRCodeId))
+                    .GET()
+                    .timeout(Duration.ofSeconds(10))
+                    .build();
+            try {
+                String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+                System.out.println(response);
+
+                int check = response.compareTo("Feature successfully found.");
+
+                if(check == 0) {
+                    System.out.println("Test 12 is successful.");
+                } else {
+                    System.out.println("Test 12 is not successful.");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (URISyntaxException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //Test 13 - error condition
+        QRCodeId = 12345; //code does not match flag being played
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/capture_the_flag/find_feature?code_id=" + QRCodeId))
+                    .GET()
+                    .timeout(Duration.ofSeconds(10))
+                    .build();
+            try {
+                String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+                System.out.println(response);
+
+                int check = response.compareTo("Incorrect feature.");
+
+                if(check == 0) {
+                    System.out.println("Test 13 is successful.");
+                } else {
+                    System.out.println("Test 13 is not successful.");
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
