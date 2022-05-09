@@ -1,5 +1,4 @@
 package edu.uwb.css533;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -10,12 +9,10 @@ import java.time.Duration;
 public class Main {
 
     public static void main(String[] args) {
-        // write your code here
         HttpClient HTTP_CLIENT = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .followRedirects(HttpClient.Redirect.NORMAL)
                 .build();
-
 
 
         //Test 1 - normal path

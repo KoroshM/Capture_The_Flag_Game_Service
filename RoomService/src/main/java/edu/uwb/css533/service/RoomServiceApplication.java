@@ -1,5 +1,7 @@
 package edu.uwb.css533.service;
 
+import edu.uwb.css533.service.db.RoomDao;
+import edu.uwb.css533.service.resources.RoomResource;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -25,11 +27,10 @@ public class RoomServiceApplication extends Application<RoomServiceConfiguration
     @Override
     public void run(final RoomServiceConfiguration configuration,
                     final Environment environment) {
-        // TODO: implement application
         final JdbiFactory factory = new JdbiFactory();
         final Jdbi jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
-        //final PlayerDao player_dao = jdbi.onDemand(PlayerDao.class);
-        //environment.jersey().register(new PlayerResource(jdbi, player_dao));
+        final RoomDao room_dao = jdbi.onDemand(RoomDao.class);
+        environment.jersey().register(new RoomResource(jdbi, room_dao));
     }
 
 }

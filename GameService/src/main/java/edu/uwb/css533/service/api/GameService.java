@@ -29,7 +29,13 @@ public class GameService {
     @GET
     @Path("/start_game")
     public Response startGame(@QueryParam("user_id") String id) {
-        return Response.ok("not done").build();
+        Integer numPlayers = dao.checkNumPlayers(id);
+        if(numPlayers >= 2) {
+            return Response.ok("Game has begun. Here is your flag and target codes.").build();
+        } else {
+            return Response.ok("Game could not begin. Please add more players").build();
+        }
+
 
     }
 }

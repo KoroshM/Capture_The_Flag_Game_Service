@@ -15,7 +15,6 @@ public class PlayerResource {
     private Jdbi jdbi;
     private PlayerDao dao;
     private int user_id;
-    private boolean logged_in;
 
     public PlayerResource(Jdbi jdbi, PlayerDao dao) {
         this.jdbi = jdbi;

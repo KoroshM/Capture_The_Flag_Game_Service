@@ -6,4 +6,8 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 public interface GameDao {
 
+    @SqlQuery("select num_players from room_sessions where session_id = :id")
+    Integer checkNumPlayers(@Bind("id") String id);
+
+
 }
