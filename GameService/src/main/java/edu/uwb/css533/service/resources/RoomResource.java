@@ -7,10 +7,11 @@ import javax.ws.rs.core.Response;
 import java.net.http.HttpClient;
 
 @Path("/capture_the_flag")
-public class FlagResource {
+public class RoomResource {
+
     private static HttpClient HTTP_CLIENT;
 
-    public FlagResource() {
+    public RoomResource() {
         HTTP_CLIENT = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .followRedirects(HttpClient.Redirect.NORMAL)
@@ -18,14 +19,14 @@ public class FlagResource {
     }
 
     @GET
-    @Path("/new_flag")
-    public Response getNewFlag(@QueryParam("user_id") String id) {
+    @Path("/new_room")
+    public Response createNewRoom(@QueryParam("user_id") String id) {
         return Response.ok("not done").build();
     }
 
     @GET
-    @Path("/flag_features")
-    public Response getFlagFeatures(@QueryParam("user_id") String id, @QueryParam("flag_id") String flag_id) {
+    @Path("/join_room")
+    public Response joinExistingRoom(@QueryParam("user_id") String id) {
         return Response.ok("not done").build();
     }
 }
