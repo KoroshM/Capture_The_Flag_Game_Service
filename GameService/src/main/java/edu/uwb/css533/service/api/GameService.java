@@ -39,7 +39,7 @@ public class GameService {
         if(numPlayers >= 2) {
             try {
                 Response flagName = getFlag(id);
-                return Response.ok("Game has begun. Here is your flag and target codes.").build();
+                return Response.ok("Game has begun.").build();
             } catch (Exception e) {
                 return Response.ok(e.getMessage()).build();
             }
