@@ -2,7 +2,6 @@ package edu.uwb.css533.service;
 
 import edu.uwb.css533.service.api.GameService;
 import edu.uwb.css533.service.db.GameDao;
-import edu.uwb.css533.service.resources.FlagResource;
 import edu.uwb.css533.service.resources.PlayerResource;
 import edu.uwb.css533.service.resources.RoomResource;
 import io.dropwizard.Application;
@@ -36,7 +35,6 @@ public class GameServiceApplication extends Application<GameServiceConfiguration
         final GameDao game_dao = jdbi.onDemand(GameDao.class);
         environment.jersey().register(new PlayerResource());
         environment.jersey().register(new GameService(jdbi, game_dao));
-        environment.jersey().register(new FlagResource());
         environment.jersey().register(new RoomResource());
     }
 

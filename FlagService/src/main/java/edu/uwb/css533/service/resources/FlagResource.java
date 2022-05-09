@@ -23,11 +23,12 @@ public class FlagResource {
 
     @GET
     @Path("/get_flag")
-    public String getFlag() {
+    public Response getFlag(@QueryParam("session_id") int id) {
         Random rand = new Random();
         int randNum = rand.nextInt();
         String flagName = dao.getFlag(randNum);
-        return flagName;
+        dao.updateFlag(flagName, id);
+        return Response.ok(flagName).build();
     }
 
     @GET

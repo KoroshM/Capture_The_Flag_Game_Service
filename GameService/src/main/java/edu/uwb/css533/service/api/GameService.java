@@ -20,10 +20,16 @@ public class GameService {
 
     private Jdbi jdbi;
     private GameDao dao;
+    private static HttpClient HTTP_CLIENT;
 
     public GameService(Jdbi jdbi, GameDao dao) {
         this.jdbi = jdbi;
         this.dao = dao;
+
+        HTTP_CLIENT = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .build();
 
     }
 
@@ -33,11 +39,29 @@ public class GameService {
         Integer numPlayers = dao.checkNumPlayers(id);
         if(numPlayers >= 2) {
             //call flag service
-            dao.updateFlag(flagName, id);
-            return Response.ok("Game has begun. Here is your flag and target codes.").build();
+            try {
+                Response flagName = getFlag(id);
+                return Response.ok("Game has begun. Here is your flag and target codes.").build();
+            } catch (Exception e) {
+                return Response.ok(e.getMessage()).build();
+            }
         } else {
             return Response.ok("Game could not begin. Please add more players").build();
         }
+    }
+
+    public HttpRequest requestFlag(int id) throws URISyntaxException {
+        return HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8090/flag/get_flag?session_id=" + id))
+                .GET()
+                .timeout(Duration.ofSeconds(10))
+                .build();
+    }
+
+    public Response getFlag(int id) throws Exception {
+        HttpRequest request = requestFlag(id);
+        String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        return Response.ok(response).build();
 
     }
 }
