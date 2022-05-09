@@ -39,12 +39,12 @@ public class GameService {
         if(numPlayers >= 2) {
             try {
                 Response flagName = getFlag(id);
-                return Response.ok("Game has begun.").build();
+                return Response.ok("The game has begun. The flag you are capturing is " + flagName + ".").build();
             } catch (Exception e) {
                 return Response.ok(e.getMessage()).build();
             }
         } else {
-            return Response.ok("Game could not begin. Please add more players").build();
+            return Response.ok("The game could not begin. Please add more players").build();
         }
     }
 

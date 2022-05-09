@@ -270,8 +270,8 @@ public class Main {
             try {
                 String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
                 System.out.println(response);
-                int check = response.compareTo("Game has begun.");
-                if(check == 0) {
+                boolean check = response.contains("The game has begun.");
+                if(check == true) {
                     System.out.println("Test 10 is successful.");
                 } else {
                     System.out.println("Test 10 is not successful.");
@@ -284,7 +284,7 @@ public class Main {
         }
 
         //Test 11 - error condition
-        sessionId = 123; //session does not have at least two players
+        sessionId = 234; //session does not have at least two players
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://localhost:8080/capture_the_flag/start_game?session_id=" + sessionId))
@@ -294,7 +294,7 @@ public class Main {
             try {
                 String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
                 System.out.println(response);
-                int check = response.compareTo("Game could not begin. Please add more players");
+                int check = response.compareTo("The game could not begin. Please add more players");
                 if(check == 0) {
                     System.out.println("Test 11 is successful.");
                 } else {
