@@ -22,15 +22,21 @@ public class RoomResource {
 
     @GET
     @Path("/new")
-    public Response createNewRoom(@QueryParam("user_id") String id) {
+    public Response createNewRoom(@QueryParam("user_id") int id) {
         dao.insert(null, session_id++, 1);
-        return Response.ok("not done").build();
+        return Response.ok(session_id).build();
     }
 
 
     @GET
     @Path("/join")
-    public Response joinRoom(@QueryParam("user_id") String id) {
-        return Response.ok("not done").build();
+    public Response joinRoom(@QueryParam("user_id") int id, @QueryParam("session_id") int sid) {
+        Integer numPlayers = dao.checkNumPlayers(sid);
+        if(numPlayers == null) {
+            return Response.ok("Player cannot join " + sid + ". The session does not exist.").build();
+        } else {
+            dao.updateNumPlayers(numPlayers++, sid);
+            return Response.ok("Player joined " + sid + ".").build();
+        }
     }
 }

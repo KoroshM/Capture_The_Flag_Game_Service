@@ -35,16 +35,15 @@ public class PlayerResource {
     @GET
     @Path("/new_user")
     public Response createNewUser(@QueryParam("username") String username, @QueryParam("password") String password) {
-
         try {
-            return getNewUserRequest(username, password);
+            return getNewUser(username, password);
         } catch (Exception e) {
             return Response.ok("Exception thrown" + e.getMessage()).build();
         }
 
     }
 
-    public HttpRequest createNewUserRequest(String username, String password) throws URISyntaxException {
+    public HttpRequest requestNewUser(String username, String password) throws URISyntaxException {
         return HttpRequest.newBuilder()
                 .uri(new URI("http://localhost:8090/player/create_new_user?username=" + username
                         + "&password=" + password))
@@ -53,8 +52,8 @@ public class PlayerResource {
                 .build();
     }
 
-    public Response getNewUserRequest(String username, String password) throws Exception {
-        HttpRequest request = createNewUserRequest(username, password);
+    public Response getNewUser(String username, String password) throws Exception {
+        HttpRequest request = requestNewUser(username, password);
         String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
         return Response.ok(response).build();
 
@@ -63,15 +62,14 @@ public class PlayerResource {
     @GET
     @Path("/login")
     public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
-
         try {
-            return getLogInAttempt(username, password);
+            return getLogIn(username, password);
         } catch (Exception e) {
             return Response.ok("Exception thrown" + e.getMessage()).build();
         }
     }
 
-    public HttpRequest createNewLogInAttempt(String username, String password) throws URISyntaxException {
+    public HttpRequest requestLogIn(String username, String password) throws URISyntaxException {
         return HttpRequest.newBuilder()
                 .uri(new URI("http://localhost:8090/player/login?username=" + username
                         + "&password=" + password))
@@ -80,8 +78,8 @@ public class PlayerResource {
                 .build();
     }
 
-    public Response getLogInAttempt(String username, String password) throws Exception {
-        HttpRequest request = createNewLogInAttempt(username, password);
+    public Response getLogIn(String username, String password) throws Exception {
+        HttpRequest request = requestLogIn(username, password);
         String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
         return Response.ok(response).build();
 

@@ -252,8 +252,8 @@ public class Main {
         }
 
         //Test 9 - error condition
-        userId = 1; //user is logged in, session exists, and session is full
-        sessionId = 123;
+        userId = 1; //user is logged in, session does not exist
+        sessionId = 124;
 
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -266,7 +266,7 @@ public class Main {
                 String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
                 System.out.println(response);
 
-                int check = response.compareTo("Player cannot join " + sessionId + ". The session is full.");
+                int check = response.compareTo("Player cannot join " + sessionId + ". The session does not exist.");
 
                 if(check == 0) {
                     System.out.println("Test 9 is successful.");

@@ -4,7 +4,12 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 
 @Path("/capture_the_flag")
 public class RoomResource {
@@ -20,13 +25,52 @@ public class RoomResource {
 
     @GET
     @Path("/new_room")
-    public Response createNewRoom(@QueryParam("user_id") String id) {
-        return Response.ok("not done").build();
+    public Response createNewRoom(@QueryParam("user_id") int id) {
+        try {
+            return getNewRoom(id);
+        } catch (Exception e) {
+            return Response.ok("Exception thrown" + e.getMessage()).build();
+        }
+    }
+
+    public HttpRequest requestNewRoom(int id) throws URISyntaxException {
+        return HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8090/room/new?user_id=" + id))
+                .GET()
+                .timeout(Duration.ofSeconds(10))
+                .build();
+    }
+
+    public Response getNewRoom(int id) throws Exception {
+        HttpRequest request = requestNewRoom(id);
+        String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        return Response.ok(response).build();
+
     }
 
     @GET
     @Path("/join_room")
-    public Response joinExistingRoom(@QueryParam("user_id") String id) {
-        return Response.ok("not done").build();
+    public Response joinExistingRoom(@QueryParam("user_id") int id, @QueryParam("session_id") int sid) {
+
+        try {
+            return getJoinRoom(id, sid);
+        } catch (Exception e) {
+            return Response.ok("Exception thrown" + e.getMessage()).build();
+        }
+    }
+
+    public HttpRequest requestJoinRoom(int id, int sid) throws URISyntaxException {
+        return HttpRequest.newBuilder()
+                .uri(new URI("http://localhost:8090/room/join?user_id=" + id + "&session_id=" + sid))
+                .GET()
+                .timeout(Duration.ofSeconds(10))
+                .build();
+    }
+
+    public Response getJoinRoom(int id, int sid) throws Exception {
+        HttpRequest request = requestJoinRoom(id, sid);
+        String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        return Response.ok(response).build();
+
     }
 }

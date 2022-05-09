@@ -30,7 +30,6 @@ public class GameService {
                 .version(HttpClient.Version.HTTP_2)
                 .followRedirects(HttpClient.Redirect.NORMAL)
                 .build();
-
     }
 
     @GET
@@ -38,7 +37,6 @@ public class GameService {
     public Response startGame(@QueryParam("session_id") int id) {
         Integer numPlayers = dao.checkNumPlayers(id);
         if(numPlayers >= 2) {
-            //call flag service
             try {
                 Response flagName = getFlag(id);
                 return Response.ok("Game has begun. Here is your flag and target codes.").build();
@@ -52,7 +50,7 @@ public class GameService {
 
     public HttpRequest requestFlag(int id) throws URISyntaxException {
         return HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8090/flag/get_flag?session_id=" + id))
+                .uri(new URI("http://localhost:8060/flag/get_flag?session_id=" + id))
                 .GET()
                 .timeout(Duration.ofSeconds(10))
                 .build();
