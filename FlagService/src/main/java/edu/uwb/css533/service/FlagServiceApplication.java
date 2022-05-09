@@ -1,5 +1,7 @@
 package edu.uwb.css533.service;
 
+import edu.uwb.css533.service.db.FlagDao;
+import edu.uwb.css533.service.resources.FlagResource;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -28,8 +30,8 @@ public class FlagServiceApplication extends Application<FlagServiceConfiguration
         // TODO: implement application
         final JdbiFactory factory = new JdbiFactory();
         final Jdbi jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
-        //final PlayerDao player_dao = jdbi.onDemand(PlayerDao.class);
-        //environment.jersey().register(new PlayerResource(jdbi, player_dao));
+        final FlagDao flag_dao = jdbi.onDemand(FlagDao.class);
+        environment.jersey().register(new FlagResource(jdbi, flag_dao));
     }
 
 }

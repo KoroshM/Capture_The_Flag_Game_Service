@@ -32,9 +32,7 @@ public class GameService {
     public Response startGame(@QueryParam("session_id") int id) {
         Integer numPlayers = dao.checkNumPlayers(id);
         if(numPlayers >= 2) {
-            Random rand = new Random();
-            int randNum = rand.nextInt();
-            String flagName = dao.getFlag(randNum);
+            //call flag service
             dao.updateFlag(flagName, id);
             return Response.ok("Game has begun. Here is your flag and target codes.").build();
         } else {

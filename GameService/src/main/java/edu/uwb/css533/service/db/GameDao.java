@@ -12,7 +12,4 @@ public interface GameDao {
     @SqlUpdate("update room_sessions set current_flag = :flag where session_id = :id")
     void updateFlag(@Bind("flag") String flag, @Bind("id") int id);
 
-    @SqlQuery("select flag_name from flags where num_flag = :num")
-    String getFlag(@Bind("num") int num);
-
 }
