@@ -7,11 +7,11 @@ import javax.ws.rs.core.Response;
 import java.net.http.HttpClient;
 
 @Path("/capture_the_flag")
-public class RoomResource {
+public class SessionResource {
 
     private static HttpClient HTTP_CLIENT;
 
-    public RoomResource() {
+    public SessionResource() {
         HTTP_CLIENT = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
                 .followRedirects(HttpClient.Redirect.NORMAL)
