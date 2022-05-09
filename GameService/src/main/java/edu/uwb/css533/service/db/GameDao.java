@@ -7,7 +7,12 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 public interface GameDao {
 
     @SqlQuery("select num_players from room_sessions where session_id = :id")
-    Integer checkNumPlayers(@Bind("id") String id);
+    Integer checkNumPlayers(@Bind("id") int id);
 
+    @SqlUpdate("update room_sessions set current_flag = :flag where session_id = :id")
+    void updateFlag(@Bind("flag") String flag, @Bind("id") int id);
+
+    @SqlQuery("select flag_name from flags where num_flag = :num")
+    String getFlag(@Bind("num") int num);
 
 }

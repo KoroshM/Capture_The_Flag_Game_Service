@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import java.util.Random;
 
 @Path("/room")
 public class RoomResource {
@@ -22,6 +23,7 @@ public class RoomResource {
     @GET
     @Path("/new")
     public Response createNewRoom(@QueryParam("user_id") String id) {
+        dao.insert(null, session_id++, 1);
         return Response.ok("not done").build();
     }
 

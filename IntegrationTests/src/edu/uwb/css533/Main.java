@@ -6,6 +6,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
+/*
+* Integration tests for Capture The Flag game
+* Start database and services
+* To compile, javac Main.java
+* To run, java Main
+*/
+
 public class Main {
 
     public static void main(String[] args) {

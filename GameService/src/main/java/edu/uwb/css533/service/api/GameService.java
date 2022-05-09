@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Random;
 
 @Path("/capture_the_flag")
 public class GameService {
@@ -28,14 +29,17 @@ public class GameService {
 
     @GET
     @Path("/start_game")
-    public Response startGame(@QueryParam("user_id") String id) {
+    public Response startGame(@QueryParam("session_id") int id) {
         Integer numPlayers = dao.checkNumPlayers(id);
         if(numPlayers >= 2) {
+            Random rand = new Random();
+            int randNum = rand.nextInt();
+            String flagName = dao.getFlag(randNum);
+            dao.updateFlag(flagName, id);
             return Response.ok("Game has begun. Here is your flag and target codes.").build();
         } else {
             return Response.ok("Game could not begin. Please add more players").build();
         }
-
 
     }
 }
