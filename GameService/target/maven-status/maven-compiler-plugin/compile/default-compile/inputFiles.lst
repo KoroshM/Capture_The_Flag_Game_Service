@@ -1,7 +1,8 @@
 /Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/db/GameDao.java
 /Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/api/GameService.java
-/Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/resources/FlagResource.java
-/Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/resources/SessionResource.java
+/Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/resources/RoomResource.java
+/Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/api/PlayerService.java
+/Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/db/PlayerDao.java
 /Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/GameServiceApplication.java
 /Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/GameServiceConfiguration.java
 /Users/nayanayeshlur/Desktop/CSS 533 Distributed Programming/Assignment 2/Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/resources/PlayerResource.java

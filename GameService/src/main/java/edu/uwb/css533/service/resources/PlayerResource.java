@@ -18,7 +18,7 @@ import java.time.Duration;
 // http://server:port/path?param=something
 
 //path (part of URL)
-@Path("8080/capture_the_flag")
+@Path("/capture_the_flag")
 //@Produces(MediaType.APPLICATION_JSON)
 public class PlayerResource {
     private int user_id;
@@ -38,7 +38,7 @@ public class PlayerResource {
         try {
             return getNewUser(username, password);
         } catch (Exception e) {
-            return Response.ok("Exception thrown" + e.getMessage()).build();
+            return Response.ok("Exception thrown " + e.getMessage()).build();
         }
 
     }
@@ -65,7 +65,7 @@ public class PlayerResource {
         try {
             return getLogIn(username, password);
         } catch (Exception e) {
-            return Response.ok("Exception thrown" + e.getMessage()).build();
+            return Response.ok("Exception thrown " + e.getMessage()).build();
         }
     }
 

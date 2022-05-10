@@ -15,7 +15,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Random;
 
-@Path("8080/capture_the_flag")
+@Path("/capture_the_flag")
 public class GameService {
 
     private Jdbi jdbi;
