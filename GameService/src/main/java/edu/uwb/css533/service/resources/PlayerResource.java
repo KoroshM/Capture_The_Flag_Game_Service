@@ -18,7 +18,7 @@ import java.time.Duration;
 // http://server:port/path?param=something
 
 //path (part of URL)
-@Path("/capture_the_flag")
+@Path("8080/capture_the_flag")
 //@Produces(MediaType.APPLICATION_JSON)
 public class PlayerResource {
     private int user_id;
