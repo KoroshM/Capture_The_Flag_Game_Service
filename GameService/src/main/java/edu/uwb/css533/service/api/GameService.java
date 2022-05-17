@@ -62,4 +62,20 @@ public class GameService {
         return Response.ok(response).build();
 
     }
+
+    @GET
+    @Path("/check_game")
+    public Response checkStartGame(@QueryParam("session_id") int id) {
+        Boolean status = dao.sessionGameStatus(id);
+        if(status == true) {
+            try {
+                String flagName = dao.getFlag(id);
+                return Response.ok("The game has begun. The flag you are capturing is " + flagName + ".").build();
+            } catch (Exception e) {
+                return Response.ok(e.getMessage()).build();
+            }
+        } else {
+            return Response.ok("The game has not begun.").build();
+        }
+    }
 }

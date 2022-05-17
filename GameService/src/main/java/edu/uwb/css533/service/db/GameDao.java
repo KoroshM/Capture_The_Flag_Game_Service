@@ -10,6 +10,9 @@ public interface GameDao {
     Integer checkNumPlayers(@Bind("id") int id);
 
     @SqlQuery("select flag_name from room_sessions where session_id = :id")
-    String getFlag(@Bind("num") int id);
+    String getFlag(@Bind("id") int id);
+
+    @SqlQuery("select game_started from room_sessions where session_id = :id")
+    Boolean sessionGameStatus(@Bind("id") int id);
 
 }

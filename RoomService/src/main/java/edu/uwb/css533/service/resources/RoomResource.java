@@ -23,7 +23,7 @@ public class RoomResource {
     @GET
     @Path("/new")
     public Response createNewRoom(@QueryParam("user_id") int id) {
-        dao.insert(null, session_id++, 1);
+        dao.insert(null, session_id++, 1, false);
         return Response.ok(session_id).build();
     }
 

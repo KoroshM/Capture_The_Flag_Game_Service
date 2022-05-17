@@ -6,8 +6,8 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.joda.time.DateTime;
 
 public interface RoomDao {
-    @SqlUpdate("insert into room_sessions (current_flag, session_id, num_players) values (:flag, :id, :players)")
-    void insert(@Bind("flag") String flag, @Bind("id") int id, @Bind("players") int players);
+    @SqlUpdate("insert into room_sessions (current_flag, session_id, num_players, game_started) values (:flag, :id, :players, :status)")
+    void insert(@Bind("flag") String flag, @Bind("id") int id, @Bind("players") int players, @Bind("status") boolean status);
 
     @SqlQuery("select num_players from room_sessions where session_id = :id")
     Integer checkNumPlayers(@Bind("id") int id);
