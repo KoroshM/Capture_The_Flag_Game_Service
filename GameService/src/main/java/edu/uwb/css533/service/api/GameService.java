@@ -39,6 +39,7 @@ public class GameService {
         if(numPlayers >= 2) {
             try {
                 Response flagName = getFlag(id);
+                dao.updateGameStatus(true, id);
                 return Response.ok("The game has begun. The flag you are capturing is " + flagName + ".").build();
             } catch (Exception e) {
                 return Response.ok(e.getMessage()).build();
@@ -66,7 +67,7 @@ public class GameService {
     @GET
     @Path("/check_game")
     public Response checkStartGame(@QueryParam("session_id") int id) {
-        Boolean status = dao.sessionGameStatus(id);
+        Boolean status = dao.getGameStatus(id);
         if(status == true) {
             try {
                 String flagName = dao.getFlag(id);

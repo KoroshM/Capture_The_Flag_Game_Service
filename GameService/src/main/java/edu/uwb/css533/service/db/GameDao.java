@@ -13,6 +13,9 @@ public interface GameDao {
     String getFlag(@Bind("id") int id);
 
     @SqlQuery("select game_started from room_sessions where session_id = :id")
-    Boolean sessionGameStatus(@Bind("id") int id);
+    Boolean getGameStatus(@Bind("id") int id);
+
+    @SqlUpdate("update room_sessions set game_started = :status where session_id = :id")
+    void updateGameStatus(@Bind("status") boolean status, @Bind("id") int id);
 
 }
