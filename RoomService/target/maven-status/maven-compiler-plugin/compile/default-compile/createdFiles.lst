@@ -1,0 +1,4 @@
+edu/uwb/css533/service/resources/RoomResource.class
+edu/uwb/css533/service/RoomServiceApplication.class
+edu/uwb/css533/service/RoomServiceConfiguration.class
+edu/uwb/css533/service/db/RoomDao.class

@@ -27,8 +27,9 @@ public class PlayerResource {
 
         Integer result = dao.findUserIdByUsername(username);
         if(result == null) {
-            dao.insert(username, password, user_id++, false);
-            return Response.ok("User created.").build();
+            dao.insert(username, password, user_id++, false, -1, false);
+            int correctPrint = user_id - 1;
+            return Response.ok("User created with ID = " + correctPrint + ".").build();
         } else {
             return Response.ok("User already exists.").build();
         }

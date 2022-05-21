@@ -23,8 +23,9 @@ public class RoomResource {
     @GET
     @Path("/new")
     public Response createNewRoom(@QueryParam("user_id") int id) {
-        dao.insert(null, session_id++, 1, false);
-        return Response.ok(session_id).build();
+        dao.insert(session_id++, false, null, null, null, null, 1, id, -1, false, false, false, false, false, false);
+        int correctPrint = session_id - 1;
+        return Response.ok("Your room ID is " + correctPrint + ".").build();
     }
 
 
@@ -33,10 +34,13 @@ public class RoomResource {
     public Response joinRoom(@QueryParam("user_id") int id, @QueryParam("session_id") int sid) {
         Integer numPlayers = dao.checkNumPlayers(sid);
         if(numPlayers == null) {
-            return Response.ok("Player cannot join " + sid + ". The session does not exist.").build();
+            return Response.ok("Player cannot join room " + sid + ". The session does not exist.").build();
+        } else if (numPlayers == 2) {
+            return Response.ok("Player cannot join room " + sid + ". The session is full.").build();
         } else {
-            dao.updateNumPlayers(numPlayers++, sid);
-            return Response.ok("Player joined " + sid + ".").build();
+            dao.updateNumPlayers(2, sid);
+            dao.updatePlayer2ID(id, sid);
+            return Response.ok("Player joined room " + sid + ".").build();
         }
     }
 

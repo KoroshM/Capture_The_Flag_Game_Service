@@ -18,4 +18,13 @@ public interface GameDao {
     @SqlUpdate("update room_sessions set game_started = :status where session_id = :id")
     void updateGameStatus(@Bind("status") boolean status, @Bind("id") int id);
 
+    @SqlQuery("select feature1 from room_sessions where session_id = :id")
+    String getFeature1(@Bind("id") int id);
+
+    @SqlQuery("select feature2 from room_sessions where session_id = :id")
+    String getFeature2(@Bind("id") int id);
+
+    @SqlQuery("select feature3 from room_sessions where session_id = :id")
+    String getFeature3(@Bind("id") int id);
+
 }

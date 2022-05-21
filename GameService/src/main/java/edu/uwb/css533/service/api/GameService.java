@@ -36,11 +36,16 @@ public class GameService {
     @Path("/start_game")
     public Response startGame(@QueryParam("session_id") int id) {
         Integer numPlayers = dao.checkNumPlayers(id);
-        if(numPlayers >= 2) {
+        if(numPlayers == 2) {
             try {
                 Response flagName = getFlag(id);
+                String feature1 = dao.getFeature1(id);
+                String feature2 = dao.getFeature2(id);
+                String feature3 = dao.getFeature3(id);
+
                 dao.updateGameStatus(true, id);
-                return Response.ok("The game has begun. The flag you are capturing is " + flagName + ".").build();
+                return Response.ok("The game has begun. The flag you are capturing is " + flagName + "." +
+                        "The features you need are: " + feature1 + ", " + feature2 + ", and " + feature3 + ".").build();
             } catch (Exception e) {
                 return Response.ok(e.getMessage()).build();
             }
@@ -71,7 +76,11 @@ public class GameService {
         if(status == true) {
             try {
                 String flagName = dao.getFlag(id);
-                return Response.ok("The game has begun. The flag you are capturing is " + flagName + ".").build();
+                String feature1 = dao.getFeature1(id);
+                String feature2 = dao.getFeature2(id);
+                String feature3 = dao.getFeature3(id);
+                return Response.ok("The game has begun. The flag you are capturing is " + flagName + "." +
+                        "The features you need are: " + feature1 + ", " + feature2 + ", and " + feature3 + ".").build();
             } catch (Exception e) {
                 return Response.ok(e.getMessage()).build();
             }
