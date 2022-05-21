@@ -9,7 +9,7 @@ public interface GameDao {
     @SqlQuery("select num_players from room_sessions where session_id = :id")
     Integer checkNumPlayers(@Bind("id") int id);
 
-    @SqlQuery("select flag_name from room_sessions where session_id = :id")
+    @SqlQuery("select current_flag from room_sessions where session_id = :id")
     String getFlag(@Bind("id") int id);
 
     @SqlQuery("select game_started from room_sessions where session_id = :id")
@@ -26,5 +26,23 @@ public interface GameDao {
 
     @SqlQuery("select feature3 from room_sessions where session_id = :id")
     String getFeature3(@Bind("id") int id);
+
+    @SqlQuery("select player1_id from room_sessions where session_id = :id")
+    Integer getPlayer1ID(@Bind("id") int id);
+
+    @SqlQuery("select player2_id from room_sessions where session_id = :id")
+    Integer getPlayer2ID(@Bind("id") int id);
+
+    @SqlQuery("select player1_progress from room_sessions where session_id = :id")
+    Integer getPlayer1Progress(@Bind("id") int id);
+
+    @SqlQuery("select player2_progress from room_sessions where session_id = :id")
+    Integer getPlayer2Progress(@Bind("id") int id);
+
+    @SqlUpdate("update room_sessions set player1_progress = :progress where session_id = :id")
+    void updatePlayer1Progress(@Bind("progress") int progress, @Bind("id") int id);
+
+    @SqlUpdate("update room_sessions set player2_progress = :progress where session_id = :id")
+    void updatePlayer2Progress(@Bind("progress") int progress, @Bind("id") int id);
 
 }

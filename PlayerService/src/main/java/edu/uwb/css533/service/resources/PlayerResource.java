@@ -19,6 +19,7 @@ public class PlayerResource {
     public PlayerResource(Jdbi jdbi, PlayerDao dao) {
         this.jdbi = jdbi;
         this.dao = dao;
+        user_id = 0;
     }
 
     @GET

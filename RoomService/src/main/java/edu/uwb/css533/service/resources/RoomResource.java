@@ -18,13 +18,15 @@ public class RoomResource {
     public RoomResource(Jdbi jdbi, RoomDao dao) {
         this.jdbi = jdbi;
         this.dao = dao;
+        session_id = 0;
     }
 
     @GET
     @Path("/new")
     public Response createNewRoom(@QueryParam("user_id") int id) {
-        dao.insert(session_id++, false, null, null, null, null, 1, id, -1, false, false, false, false, false, false);
+        dao.insert(session_id++, false, null, null, null, null, 1, id, -1, 0, 0);
         int correctPrint = session_id - 1;
+        dao.updatePlayerActiveSession(correctPrint, id);
         return Response.ok("Your room ID is " + correctPrint + ".").build();
     }
 
@@ -40,6 +42,7 @@ public class RoomResource {
         } else {
             dao.updateNumPlayers(2, sid);
             dao.updatePlayer2ID(id, sid);
+            dao.updatePlayerActiveSession(sid, id);
             return Response.ok("Player joined room " + sid + ".").build();
         }
     }

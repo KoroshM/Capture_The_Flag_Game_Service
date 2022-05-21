@@ -1,0 +1,4 @@
+edu/uwb/css533/service/FlagServiceApplication.class
+edu/uwb/css533/service/db/FlagDao.class
+edu/uwb/css533/service/FlagServiceConfiguration.class
+edu/uwb/css533/service/resources/FlagResource.class
