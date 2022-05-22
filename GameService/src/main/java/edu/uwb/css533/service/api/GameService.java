@@ -40,6 +40,7 @@ public class GameService {
         //session does not exist
         if(numPlayers == null) {
             return Response.ok(-1).build();
+        //A player can play by themselves, numPlayers == 1 they can also play with another player, numPlayers > 1
         } else if(numPlayers >= 1) {
             try {
                 Response flagResponse = getFlag(sid);
@@ -109,75 +110,78 @@ public class GameService {
 
     @GET
     @Path("/check_feature")
-    public Response checkFeature(@QueryParam("session_id") int sid, @QueryParam("user_id") int uid, @QueryParam("feature") String feature) {
+    public Response checkFeature(@QueryParam("session_id") int sid, @QueryParam("user_id") int uid, @QueryParam("feature") int feature) {
 //
-//        String feature1 = dao.getFeature1(sid);
-//        String feature2 = dao.getFeature2(sid);
-//        String feature3 = dao.getFeature3(sid);
-//
-//        Integer p1_id = dao.getPlayer1ID(sid);
-//        Integer p2_id = dao.getPlayer2ID(sid);
-//        Integer winner = dao.getWinner(sid);
-//
-//        if (winner == -1) {
-//            if (feature.equals(feature1) || feature.equals(feature2) || feature.equals(feature3)) {
-//                try {
-//                    Integer progress1 = dao.getPlayer1Progress(sid);
-//                    Integer progress2 = dao.getPlayer2Progress(sid);
-//                    if (uid == p1_id) {
-//                        progress1++;
-//                        dao.updatePlayer1Progress(progress1, sid);
-//                        if (progress1 == 3) {
-//                            dao.updateWinner(p1_id, sid);
-//                            return Response.ok("Player 1 won the game!").build();
-//                        } else {
-//                            return Response.ok("You have collected " + progress1 + " features.").build();
-//                        }
-//                    } else {
-//                        progress2++;
-//                        dao.updatePlayer2Progress(progress2, sid);
-//                        if (progress2 == 3) {
-//                            dao.updateWinner(p2_id, sid);
-//                            return Response.ok("Player 2 won the game!").build();
-//                        } else {
-//                            return Response.ok("You have collected " + progress2 + " features.").build();
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    return Response.ok(e.getMessage()).build();
-//                }
-//            } else {
-//                return Response.ok("This is not a feature of the " + dao.getFlag(sid) + " flag.").build();
-//            }
-//        } else {
-//            if(winner == p1_id) {
-//                return Response.ok("Player 1 won the game.").build();
-//            } else {
-//                return Response.ok("Player 2 won the game.").build();
-//            }
-//        }
+        Integer feature1_code = dao.getFeature1Code(sid);
+        Integer feature2_code = dao.getFeature2Code(sid);
+        Integer feature3_code = dao.getFeature3Code(sid);
+        Integer p1_id = dao.getPlayer1ID(sid);
+        Integer p2_id = dao.getPlayer2ID(sid);
 
+        if(feature == feature1_code || feature == feature2_code || feature == feature3_code) {
+            try {
+                if(uid == p1_id) {
+                    Integer progress = dao.getPlayer1Progress(sid);
+                    progress++;
+                    dao.updatePlayer1Progress(progress, sid);
+                    if(progress == 3) {
+                        LocalDateTime gameCompleted = LocalDateTime.now();
+                        LocalDateTime startGameTime = dao.getGameStartTime(sid);
+                        Integer timeDifference = gameCompleted.getSecond() - startGameTime.getSecond();
+                        Integer currentWinningTime = dao.getWinnerTime(sid);
+
+                        if(currentWinningTime == -1) {
+                            dao.updateWinnerTime(timeDifference, sid);
+                            dao.updateWinner(uid, sid);
+                        } else if(currentWinningTime > timeDifference) {
+                            dao.updateWinnerTime(timeDifference, sid);
+                            dao.updateWinner(uid, sid);
+                        }
+                    }
+                } else if (uid == p2_id) {
+                    Integer progress = dao.getPlayer2Progress(sid);
+                    progress++;
+                    dao.updatePlayer2Progress(progress, sid);
+                    if(progress == 3) {
+                        LocalDateTime gameCompleted = LocalDateTime.now();
+                        LocalDateTime startGameTime = dao.getGameStartTime(sid);
+                        Integer timeDifference = gameCompleted.getSecond() - startGameTime.getSecond();
+                        Integer currentWinningTime = dao.getWinnerTime(sid);
+
+                        if(currentWinningTime == -1) {
+                            dao.updateWinnerTime(timeDifference, sid);
+                            dao.updateWinner(uid, sid);
+                        } else if(currentWinningTime > timeDifference) {
+                            dao.updateWinnerTime(timeDifference, sid);
+                            dao.updateWinner(uid, sid);
+                        }
+                    }
+                }
+                return Response.ok(0).build();
+            } catch (Exception e) {
+                return Response.ok(-1).build();
+            }
+        } else {
+            return Response.ok(-2).build();
+        }
     }
 
 
     @GET
     @Path("/end_game")
     public Response endGame(@QueryParam("session_id") int sid) {
-
-//        if(dao.getWinner(sid) != -1) {
-//            Integer player1_id = dao.getPlayer1ID(sid);
-//            Integer player2_id = dao.getPlayer2ID(sid);
-//            try {
-//                dao.updatePlayerGameStatus(false, player1_id);
-//                dao.updatePlayerGameStatus(false, player2_id);
-//                dao.endPlayerActiveSession(-1, player1_id);
-//                dao.endPlayerActiveSession(-1, player2_id);
-//                return Response.ok("Game has ended.").build();
-//            } catch (Exception e) {
-//                return Response.ok(e.getMessage()).build();
-//            }
-//        } else {
-//            return Response.ok("Game is still ongoing.").build();
-//        }
+        Integer winningPlayerID = dao.getWinner(sid);
+        Integer winningTimeInSeconds = dao.getWinnerTime(sid);
+        Integer player1Progress = dao.getPlayer1Progress(sid);
+        Integer player2Progress = dao.getPlayer2Progress(sid);
+        try {
+            if (player1Progress == 3 && player2Progress == 3) {
+                return Response.ok(winningPlayerID + " " + winningTimeInSeconds).build();
+            } else {
+                return Response.ok(-1).build();
+            }
+        } catch (Exception e) {
+            return Response.ok(-2).build();
+        }
     }
 }

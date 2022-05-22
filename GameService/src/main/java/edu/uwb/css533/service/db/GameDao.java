@@ -73,5 +73,11 @@ public interface GameDao {
     @SqlUpdate("update room_sessions set winner_id = :wid where session_id = :id")
     void updateWinner(@Bind("wid") int wid, @Bind("id") int id);
 
+    @SqlQuery("select winner_time_in_seconds from room_sessions where session_id = :sid")
+    Integer getWinnerTime(@Bind("sid") int sid);
+
+    @SqlUpdate("update room_sessions set winner_time_in_seconds = :w_time where session_id = :sid")
+    void updateWinnerTime(@Bind("w_time") Integer w_time, @Bind("sid") int sid);
+
 
 }

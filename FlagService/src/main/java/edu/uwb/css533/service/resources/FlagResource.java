@@ -39,9 +39,13 @@ public class FlagResource {
             dao.updateFeature1(feature1, sid);
             dao.updateFeature2(feature2, sid);
             dao.updateFeature3(feature3, sid);
-            return Response.ok(flagName).build();
+            dao.updateFeature1Code(feature1_code, sid);
+            dao.updateFeature2Code(feature2_code, sid);
+            dao.updateFeature3Code(feature3_code, sid);
+
+            return Response.ok(sid).build();
         } catch (Exception e) {
-            return Response.ok(e.getMessage()).build();
+            return Response.ok(-1).build();
         }
     }
 }
