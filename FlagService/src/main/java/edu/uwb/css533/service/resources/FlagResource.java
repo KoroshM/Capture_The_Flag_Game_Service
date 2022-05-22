@@ -30,10 +30,15 @@ public class FlagResource {
         String feature1 = dao.getFeature1(randNum);
         String feature2 = dao.getFeature2(randNum);
         String feature3 = dao.getFeature3(randNum);
-        dao.updateFlag(flagName, id);
-        dao.updateFeature1(feature1, id);
-        dao.updateFeature2(feature2, id);
-        dao.updateFeature3(feature3, id);
-        return Response.ok(flagName).build();
+
+        try {
+            dao.updateFlag(flagName, id);
+            dao.updateFeature1(feature1, id);
+            dao.updateFeature2(feature2, id);
+            dao.updateFeature3(feature3, id);
+            return Response.ok(flagName).build();
+        } catch (Exception e) {
+            return Response.ok(e.getMessage()).build();
+        }
     }
 }

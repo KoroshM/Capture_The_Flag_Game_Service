@@ -45,4 +45,16 @@ public interface GameDao {
     @SqlUpdate("update room_sessions set player2_progress = :progress where session_id = :id")
     void updatePlayer2Progress(@Bind("progress") int progress, @Bind("id") int id);
 
+    @SqlUpdate("update player_information set in_game = :in_game where user_id = :id")
+    void updatePlayerGameStatus(@Bind("in_game") boolean in_game, @Bind("id") int id);
+
+    @SqlQuery("select winner_id from room_sessions where session_id = :id")
+    Integer getWinner(@Bind("id") int id);
+
+    @SqlUpdate("update room_sessions set winner_id = :wid where session_id = :id")
+    void updateWinner(@Bind("wid") int wid, @Bind("id") int id);
+
+    @SqlUpdate("update player_information set active_session = :s_id where user_id = :id")
+    void endPlayerActiveSession(@Bind("s_id") int s_id, @Bind("id") int id);
+
 }

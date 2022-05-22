@@ -24,10 +24,14 @@ public class RoomResource {
     @GET
     @Path("/new")
     public Response createNewRoom(@QueryParam("user_id") int id) {
-        dao.insert(session_id++, false, null, null, null, null, 1, id, -1, 0, 0);
-        int correctPrint = session_id - 1;
-        dao.updatePlayerActiveSession(correctPrint, id);
-        return Response.ok("Your room ID is " + correctPrint + ".").build();
+        try {
+            dao.insert(session_id++, false, null, null, null, null, 1, id, -1, 0, 0, -1);
+            int correctPrint = session_id - 1;
+            dao.updatePlayerActiveSession(correctPrint, id);
+            return Response.ok("Your room ID is " + correctPrint + ".").build();
+        } catch (Exception e) {
+            return Response.ok(e.getMessage()).build();
+        }
     }
 
 
@@ -35,21 +39,25 @@ public class RoomResource {
     @Path("/join")
     public Response joinRoom(@QueryParam("user_id") int id, @QueryParam("session_id") int sid) {
         Integer numPlayers = dao.checkNumPlayers(sid);
-        if(numPlayers == null) {
-            return Response.ok("Player cannot join room " + sid + ". The session does not exist.").build();
-        } else if (numPlayers == 2) {
-            return Response.ok("Player cannot join room " + sid + ". The session is full.").build();
-        } else {
-            dao.updateNumPlayers(2, sid);
-            dao.updatePlayer2ID(id, sid);
-            dao.updatePlayerActiveSession(sid, id);
-            return Response.ok("Player joined room " + sid + ".").build();
+        try {
+            if (numPlayers == null) {
+                return Response.ok("Player cannot join room " + sid + ". The session does not exist.").build();
+            } else if (numPlayers == 2) {
+                return Response.ok("Player cannot join room " + sid + ". The session is full.").build();
+            } else {
+                dao.updateNumPlayers(2, sid);
+                dao.updatePlayer2ID(id, sid);
+                dao.updatePlayerActiveSession(sid, id);
+                return Response.ok("Player joined room " + sid + ".").build();
+            }
+        } catch (Exception e) {
+            return Response.ok(e.getMessage()).build();
         }
     }
 
-    @GET
-    @Path("/check_feature_code")
-    public Response checkCode(@QueryParam("feature_code") int code, @QueryParam("session_id") int id) {
-        return Response.ok("not done").build();
-    }
+//    @GET
+//    @Path("/check_feature_code")
+//    public Response checkCode(@QueryParam("feature_code") int code, @QueryParam("session_id") int id) {
+//        return Response.ok("not done").build();
+//    }
 }
