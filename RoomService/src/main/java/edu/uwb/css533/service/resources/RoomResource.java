@@ -23,14 +23,18 @@ public class RoomResource {
 
     @GET
     @Path("/new")
-    public Response createNewRoom(@QueryParam("user_id") int id) {
+    public Response createNewRoom(@QueryParam("user_id") int uid) {
         try {
-            dao.insert(session_id++, false, null, null, null, null, 1, id, -1, 0, 0, -1);
+
+            dao.insert(session_id++, false, null, null,
+                    null, -1, null, -1, null,
+                    -1, 1, uid, -1, 0,
+                    0, -1, -1);
             int correctPrint = session_id - 1;
-            dao.updatePlayerActiveSession(correctPrint, id);
-            return Response.ok("Your room ID is " + correctPrint + ".").build();
+            return Response.ok(correctPrint).build();
         } catch (Exception e) {
-            return Response.ok(e.getMessage()).build();
+            //return Response.ok(e.getMessage()).build();
+            return Response.ok(-1).build();
         }
     }
 
@@ -40,18 +44,20 @@ public class RoomResource {
     public Response joinRoom(@QueryParam("user_id") int id, @QueryParam("session_id") int sid) {
         Integer numPlayers = dao.checkNumPlayers(sid);
         try {
+            //session id does not exist
             if (numPlayers == null) {
-                return Response.ok("Player cannot join room " + sid + ". The session does not exist.").build();
+                return Response.ok(-1).build();
+            //there are already two (max) players in the session
             } else if (numPlayers == 2) {
-                return Response.ok("Player cannot join room " + sid + ". The session is full.").build();
+                return Response.ok(-2).build();
             } else {
                 dao.updateNumPlayers(2, sid);
                 dao.updatePlayer2ID(id, sid);
-                dao.updatePlayerActiveSession(sid, id);
-                return Response.ok("Player joined room " + sid + ".").build();
+                return Response.ok(sid).build();
             }
         } catch (Exception e) {
-            return Response.ok(e.getMessage()).build();
+            //return Response.ok(e.getMessage()).build();
+            return Response.ok(-3).build();
         }
     }
 

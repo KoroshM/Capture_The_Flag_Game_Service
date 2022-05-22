@@ -4,28 +4,49 @@ import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
+import java.time.LocalDateTime;
+
 public interface GameDao {
 
-    @SqlQuery("select num_players from room_sessions where session_id = :id")
-    Integer checkNumPlayers(@Bind("id") int id);
+    @SqlQuery("select num_players from room_sessions where session_id = :sid")
+    Integer checkNumPlayers(@Bind("sid") int sid);
 
-    @SqlQuery("select current_flag from room_sessions where session_id = :id")
-    String getFlag(@Bind("id") int id);
+    @SqlQuery("select started from room_sessions where session_id = :sid")
+    Boolean getGameStatus(@Bind("sid") int sid);
 
-    @SqlQuery("select game_started from room_sessions where session_id = :id")
-    Boolean getGameStatus(@Bind("id") int id);
+    @SqlUpdate("update room_sessions set started = :status where session_id = :sid")
+    void updateGameStatus(@Bind("status") boolean status, @Bind("sid") int sid);
 
-    @SqlUpdate("update room_sessions set game_started = :status where session_id = :id")
-    void updateGameStatus(@Bind("status") boolean status, @Bind("id") int id);
+    @SqlQuery("select start_time from room_sessions where session_id = :sid")
+    LocalDateTime getGameStartTime(@Bind("sid") int sid);
 
-    @SqlQuery("select feature1 from room_sessions where session_id = :id")
-    String getFeature1(@Bind("id") int id);
+    @SqlUpdate("update room_sessions set start_time = :start_time where session_id = :sid")
+    void updateGameStartTime(@Bind("start_time") LocalDateTime start_time, @Bind("sid") int sid);
 
-    @SqlQuery("select feature2 from room_sessions where session_id = :id")
-    String getFeature2(@Bind("id") int id);
 
-    @SqlQuery("select feature3 from room_sessions where session_id = :id")
-    String getFeature3(@Bind("id") int id);
+
+    @SqlQuery("select current_flag from room_sessions where session_id = :sid")
+    String getFlag(@Bind("sid") int sid);
+
+    @SqlQuery("select feature1 from room_sessions where session_id = :sid")
+    String getFeature1(@Bind("sid") int sid);
+
+    @SqlQuery("select f1_code from room_sessions where session_id = :sid")
+    Integer getFeature1Code(@Bind("sid") int sid);
+
+    @SqlQuery("select feature2 from room_sessions where session_id = :sid")
+    String getFeature2(@Bind("id") int sid);
+
+    @SqlQuery("select f2_code from room_sessions where session_id = :sid")
+    Integer getFeature2Code(@Bind("sid") int sid);
+
+    @SqlQuery("select feature3 from room_sessions where session_id = :sid")
+    String getFeature3(@Bind("sid") int sid);
+
+    @SqlQuery("select f3_code from room_sessions where session_id = :sid")
+    Integer getFeature3Code(@Bind("sid") int sid);
+
+
 
     @SqlQuery("select player1_id from room_sessions where session_id = :id")
     Integer getPlayer1ID(@Bind("id") int id);
@@ -45,8 +66,6 @@ public interface GameDao {
     @SqlUpdate("update room_sessions set player2_progress = :progress where session_id = :id")
     void updatePlayer2Progress(@Bind("progress") int progress, @Bind("id") int id);
 
-    @SqlUpdate("update player_information set in_game = :in_game where user_id = :id")
-    void updatePlayerGameStatus(@Bind("in_game") boolean in_game, @Bind("id") int id);
 
     @SqlQuery("select winner_id from room_sessions where session_id = :id")
     Integer getWinner(@Bind("id") int id);
@@ -54,7 +73,5 @@ public interface GameDao {
     @SqlUpdate("update room_sessions set winner_id = :wid where session_id = :id")
     void updateWinner(@Bind("wid") int wid, @Bind("id") int id);
 
-    @SqlUpdate("update player_information set active_session = :s_id where user_id = :id")
-    void endPlayerActiveSession(@Bind("s_id") int s_id, @Bind("id") int id);
 
 }

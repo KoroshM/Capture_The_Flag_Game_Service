@@ -23,19 +23,22 @@ public class FlagResource {
 
     @GET
     @Path("/get_flag")
-    public Response getFlag(@QueryParam("session_id") int id) {
+    public Response getFlag(@QueryParam("session_id") int sid) {
         Random rand = new Random();
         int randNum = rand.nextInt(3); // pass in total number of flags in database, using 3 here
         String flagName = dao.getFlag(randNum);
         String feature1 = dao.getFeature1(randNum);
+        Integer feature1_code = dao.getFeatureCode(feature1);
         String feature2 = dao.getFeature2(randNum);
+        Integer feature2_code = dao.getFeatureCode(feature2);
         String feature3 = dao.getFeature3(randNum);
+        Integer feature3_code = dao.getFeatureCode(feature3);
 
         try {
-            dao.updateFlag(flagName, id);
-            dao.updateFeature1(feature1, id);
-            dao.updateFeature2(feature2, id);
-            dao.updateFeature3(feature3, id);
+            dao.updateFlag(flagName, sid);
+            dao.updateFeature1(feature1, sid);
+            dao.updateFeature2(feature2, sid);
+            dao.updateFeature3(feature3, sid);
             return Response.ok(flagName).build();
         } catch (Exception e) {
             return Response.ok(e.getMessage()).build();

@@ -6,18 +6,18 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 public interface PlayerDao {
 
-    @SqlUpdate("insert into player_information (username, password, user_id, logged_in, active_session, in_game) values (:name, :pass, :id, :logged_in, :session, :in_game)")
-    void insert(@Bind("name") String name, @Bind("pass") String pass, @Bind("id") int id, @Bind("logged_in") boolean logged_in, @Bind("session") int session, @Bind("in_game") boolean game);
+    @SqlUpdate("insert into player_information (username, password, user_id, logged_in) values (:username, :password, :user_id, :logged_in)")
+    void insert(@Bind("username") String username, @Bind("pass") String password, @Bind("user_id") int user_id, @Bind("logged_in") boolean logged_in);
 
-    @SqlQuery("select user_id from player_information where username = :name")
-    Integer findUserIdByUsername(@Bind("name") String name);
+    @SqlQuery("select user_id from player_information where username = :username")
+    Integer findUserIdByUsername(@Bind("username") String username);
 
-    @SqlQuery("select username from player_information where user_id = :id")
-    String findUsernameByUserId(@Bind("id") int id);
+//    @SqlQuery("select username from player_information where user_id = :id")
+//    String findUsernameByUserId(@Bind("id") int id);
 
-    @SqlQuery("select password from player_information where user_id = :id")
-    String findPasswordByUserId(@Bind("id") int id);
+    @SqlQuery("select password from player_information where user_id = :user_id")
+    String findPasswordByUserId(@Bind("user_id") int user_id);
 
-    @SqlUpdate("update player_information set logged_in = :logged_in where user_id = :id")
-    void logIn(@Bind("logged_in") boolean logged_in, @Bind("id") int id);
+    @SqlUpdate("update player_information set logged_in = :logged_in where user_id = :user_id")
+    void logIn(@Bind("logged_in") boolean logged_in, @Bind("user_id") int user_id);
 }

@@ -29,7 +29,8 @@ public class RoomResource {
         try {
             return getNewRoom(id);
         } catch (Exception e) {
-            return Response.ok("Exception thrown" + e.getMessage()).build();
+            //return Response.ok("Exception thrown" + e.getMessage()).build();
+            return Response.ok(-1).build();
         }
     }
 
@@ -50,12 +51,13 @@ public class RoomResource {
 
     @GET
     @Path("/join_room")
-    public Response joinExistingRoom(@QueryParam("user_id") int id, @QueryParam("session_id") int sid) {
+    public Response joinExistingRoom(@QueryParam("user_id") int uid, @QueryParam("session_id") int sid) {
 
         try {
-            return getJoinRoom(id, sid);
+            return getJoinRoom(uid, sid);
         } catch (Exception e) {
-            return Response.ok("Exception thrown" + e.getMessage()).build();
+            //return Response.ok("Exception thrown" + e.getMessage()).build();
+            return Response.ok(-1).build();
         }
     }
 
