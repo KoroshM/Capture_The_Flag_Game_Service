@@ -168,7 +168,7 @@ public class GameService {
                 if(winningTimeInSeconds < bestTime || bestTime == -1) {
                     dao.updateBestTime(winningTimeInSeconds, flagName);
                 }
-                return Response.ok(winningTimeInSeconds).build();
+                return Response.ok(winningTimeInSeconds + "," + bestTime).build();
             } else {
                 return Response.ok(-1).build();
             }
