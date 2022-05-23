@@ -36,7 +36,7 @@ public class RoomResource {
 
     public HttpRequest requestNewRoom(int id) throws URISyntaxException {
         return HttpRequest.newBuilder()
-                .uri(new URI("http://127.0.01:8070/room/new?user_id=" + id))
+                .uri(new URI("http://127.0.0.1:8070/room/new?user_id=" + id))
                 .GET()
                 .timeout(Duration.ofSeconds(10))
                 .build();
@@ -63,7 +63,7 @@ public class RoomResource {
 
     public HttpRequest requestJoinRoom(int id, int sid) throws URISyntaxException {
         return HttpRequest.newBuilder()
-                .uri(new URI("http://127.0.01:8070/room/join?user_id=" + id + "&session_id=" + sid))
+                .uri(new URI("http://127.0.0.1:8070/room/join?user_id=" + id + "&session_id=" + sid))
                 .GET()
                 .timeout(Duration.ofSeconds(10))
                 .build();

@@ -40,7 +40,7 @@ public class PlayerResource {
 
     public HttpRequest requestLogIn(String username, String password) throws URISyntaxException {
         return HttpRequest.newBuilder()
-                .uri(new URI("http://127.0.01:8090/player/login?username=" + username
+                .uri(new URI("http://127.0.0.1:8090/player/login?username=" + username
                         + "&password=" + password))
                 .GET()
                 .timeout(Duration.ofSeconds(10))

@@ -41,18 +41,18 @@ public class GameService {
         }
         try {
             Boolean status = dao.getGameStatus(sid);
-            Response flagResponse = getFlag(sid);
-            String flagName = dao.getFlag(sid);
-            String feature1 = dao.getFeature1(sid);
-            Integer feature1_code = dao.getFeature1Code(sid);
-            String feature2 = dao.getFeature2(sid);
-            Integer feature2_code = dao.getFeature2Code(sid);
-            String feature3 = dao.getFeature3(sid);
-            Integer feature3_code = dao.getFeature3Code(sid);
             Integer p1_id = dao.getPlayer1ID(sid);
 
             long gameStart;
             if(uid == p1_id && status == false){
+                Response flagResponse = getFlag(sid);
+                String flagName = dao.getFlag(sid);
+                String feature1 = dao.getFeature1(sid);
+                Integer feature1_code = dao.getFeature1Code(sid);
+                String feature2 = dao.getFeature2(sid);
+                Integer feature2_code = dao.getFeature2Code(sid);
+                String feature3 = dao.getFeature3(sid);
+                Integer feature3_code = dao.getFeature3Code(sid);
                 gameStart = System.currentTimeMillis();
                 dao.updateGameStatus(true, sid);
                 dao.updateGameStartTime(gameStart, sid);
@@ -61,6 +61,13 @@ public class GameService {
                         "<br>" + gameStart).build();
             } else {
                 if(status == true) {
+                    String flagName = dao.getFlag(sid);
+                    String feature1 = dao.getFeature1(sid);
+                    Integer feature1_code = dao.getFeature1Code(sid);
+                    String feature2 = dao.getFeature2(sid);
+                    Integer feature2_code = dao.getFeature2Code(sid);
+                    String feature3 = dao.getFeature3(sid);
+                    Integer feature3_code = dao.getFeature3Code(sid);
                     gameStart = dao.getGameStartTime(sid);
                     return Response.ok(flagName + "<br>" + feature1_code + feature1 + "<br>" +
                             feature2_code + feature2 + "<br>" + feature3_code + feature3 +
@@ -76,7 +83,7 @@ public class GameService {
 
     public HttpRequest requestFlag(int id) throws URISyntaxException {
         return HttpRequest.newBuilder()
-                .uri(new URI("http://127.0.01:8060/flag/get_flag?session_id=" + id))
+                .uri(new URI("http://127.0.0.1:8060/flag/get_flag?session_id=" + id))
                 .GET()
                 .timeout(Duration.ofSeconds(10))
                 .build();
