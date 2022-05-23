@@ -22,16 +22,16 @@ public interface FlagDao {
     Integer getFeatureCode(@Bind("feature_name") String feature_name);
 
     @SqlUpdate("update room_sessions set current_flag = :flag where session_id = :sid")
-    void updateFlag(@Bind("flag") String flag, @Bind("id") int sid);
+    void updateFlag(@Bind("flag") String flag, @Bind("sid") int sid);
 
-    @SqlUpdate("update room_sessions set feature1 = :f1 where session_id = :sid")
-    void updateFeature1(@Bind("f1") String f1, @Bind("id") int sid);
+    @SqlUpdate("update room_sessions set f1 = :f1 where session_id = :sid")
+    void updateFeature1(@Bind("f1") String f1, @Bind("sid") int sid);
 
-    @SqlUpdate("update room_sessions set feature2 = :f2 where session_id = :sid")
-    void updateFeature2(@Bind("f2") String f2, @Bind("id") int sid);
+    @SqlUpdate("update room_sessions set f2 = :f2 where session_id = :sid")
+    void updateFeature2(@Bind("f2") String f2, @Bind("sid") int sid);
 
-    @SqlUpdate("update room_sessions set feature3 = :f3 where session_id = :sid")
-    void updateFeature3(@Bind("f3") String f1, @Bind("id") int sid);
+    @SqlUpdate("update room_sessions set f3 = :f3 where session_id = :sid")
+    void updateFeature3(@Bind("f3") String f1, @Bind("sid") int sid);
 
     @SqlUpdate("update room_sessions set f1_code = :f1_code where session_id = :sid")
     void updateFeature1Code(@Bind("f1_code") Integer f1_code, @Bind("sid") int sid);

@@ -39,31 +39,40 @@ public class GameService {
         Integer numPlayers = dao.checkNumPlayers(sid);
         //session does not exist
         if(numPlayers == null) {
-            return Response.ok(-1).build();
-        //A player can play by themselves, numPlayers == 1 they can also play with another player, numPlayers > 1
-        } else if(numPlayers >= 1) {
-            try {
-                Response flagResponse = getFlag(sid);
-                String flagName = dao.getFlag(sid);
-                String feature1 = dao.getFeature1(sid);
-                Integer feature1_code = dao.getFeature1Code(sid);
-                String feature2 = dao.getFeature2(sid);
-                Integer feature2_code = dao.getFeature2Code(sid);
-                String feature3 = dao.getFeature3(sid);
-                Integer feature3_code = dao.getFeature3Code(sid);
+            return Response.ok(-3).build();
+        }
+        try {
+            Boolean status = dao.getGameStatus(sid);
+            Response flagResponse = getFlag(sid);
+            String flagName = dao.getFlag(sid);
+            String feature1 = dao.getFeature1(sid);
+            Integer feature1_code = dao.getFeature1Code(sid);
+            String feature2 = dao.getFeature2(sid);
+            Integer feature2_code = dao.getFeature2Code(sid);
+            String feature3 = dao.getFeature3(sid);
+            Integer feature3_code = dao.getFeature3Code(sid);
+            Integer p1_id = dao.getPlayer1ID(sid);
 
-                LocalDateTime gameStart = LocalDateTime.now();
+            LocalDateTime gameStart;
+            if(uid == p1_id){
+                gameStart = LocalDateTime.now();
                 dao.updateGameStatus(true, sid);
                 dao.updateGameStartTime(gameStart, sid);
-
                 return Response.ok(flagName + " " + feature1 + " " + feature1_code + " " +
                         feature2 + " " + feature2_code + " " + feature3 + " " + feature3_code +
                         " " + gameStart).build();
-            } catch (Exception e) {
-                return Response.ok(e.getMessage()).build();
+            } else {
+                if(status == true) {
+                    gameStart = dao.getGameStartTime(sid);
+                    return Response.ok(flagName + " " + feature1 + " " + feature1_code + " " +
+                            feature2 + " " + feature2_code + " " + feature3 + " " + feature3_code +
+                            " " + gameStart).build();
+                }
+                return Response.ok(-1).build();
             }
-        } else {
-            return Response.ok(-1).build();
+
+        } catch (Exception e) {
+            return Response.ok(e.getMessage()).build();
         }
     }
 
@@ -82,31 +91,30 @@ public class GameService {
 
     }
 
-    @GET
-    @Path("/check_game")
-    public Response checkStartGame(@QueryParam("session_id") int sid, @QueryParam("user_id") int uid) {
-        Boolean status = dao.getGameStatus(sid);
-        if(status == true) {
-            try {
-                String flagName = dao.getFlag(sid);
-                String feature1 = dao.getFeature1(sid);
-                Integer feature1_code = dao.getFeature1Code(sid);
-                String feature2 = dao.getFeature2(sid);
-                Integer feature2_code = dao.getFeature2Code(sid);
-                String feature3 = dao.getFeature3(sid);
-                Integer feature3_code = dao.getFeature3Code(sid);
-                LocalDateTime gameStart = dao.getGameStartTime(sid);
-
-                return Response.ok(flagName + " " + feature1 + " " + feature1_code + " " +
-                        feature2 + " " + feature2_code + " " + feature3 + " " + feature3_code +
-                        " " + gameStart).build();
-            } catch (Exception e) {
-                return Response.ok(-1).build();
-            }
-        } else {
-            return Response.ok(-2).build();
-        }
-    }
+//    @GET
+//    @Path("/check_game")
+//    public Response checkStartGame(@QueryParam("session_id") int sid) {
+//        Boolean status = dao.getGameStatus(sid);
+//        if(status == true) {
+//            try {
+//                String flagName = dao.getFlag(sid);
+//                String feature1 = dao.getFeature1(sid);
+//                Integer feature1_code = dao.getFeature1Code(sid);
+//                String feature2 = dao.getFeature2(sid);
+//                Integer feature2_code = dao.getFeature2Code(sid);
+//                String feature3 = dao.getFeature3(sid);
+//                Integer feature3_code = dao.getFeature3Code(sid);
+//
+//                return Response.ok(flagName + " " + feature1 + " " + feature1_code + " " +
+//                        feature2 + " " + feature2_code + " " + feature3 + " " + feature3_code +
+//                        " " + gameStart).build();
+//            } catch (Exception e) {
+//                return Response.ok(-1).build();
+//            }
+//        } else {
+//            return Response.ok(-2).build();
+//        }
+//    }
 
     @GET
     @Path("/check_feature")
@@ -126,8 +134,13 @@ public class GameService {
                     dao.updatePlayer1Progress(progress, sid);
                     if(progress == 3) {
                         LocalDateTime gameCompleted = LocalDateTime.now();
+                        System.out.println(gameCompleted);
                         LocalDateTime startGameTime = dao.getGameStartTime(sid);
-                        Integer timeDifference = gameCompleted.getSecond() - startGameTime.getSecond();
+                        Integer timeDifferenceSeconds = gameCompleted.getSecond() - startGameTime.getSecond();
+                        Integer timeDifferenceMinutes = gameCompleted.getMinute() - startGameTime.getMinute();
+                        Integer timeDifferenceHours = gameCompleted.getHour() - startGameTime.getHour();
+                        Integer timeDifference = timeDifferenceSeconds + (60 * timeDifferenceMinutes) + (60 * 60 * timeDifferenceHours);
+
                         Integer currentWinningTime = dao.getWinnerTime(sid);
 
                         if(currentWinningTime == -1 || currentWinningTime > timeDifference) {
@@ -141,8 +154,13 @@ public class GameService {
                     dao.updatePlayer2Progress(progress, sid);
                     if(progress == 3) {
                         LocalDateTime gameCompleted = LocalDateTime.now();
+                        System.out.println(gameCompleted);
                         LocalDateTime startGameTime = dao.getGameStartTime(sid);
-                        Integer timeDifference = gameCompleted.getSecond() - startGameTime.getSecond();
+                        Integer timeDifferenceSeconds = gameCompleted.getSecond() - startGameTime.getSecond();
+                        Integer timeDifferenceMinutes = gameCompleted.getMinute() - startGameTime.getMinute();
+                        Integer timeDifferenceHours = gameCompleted.getHour() - startGameTime.getHour();
+                        Integer timeDifference = timeDifferenceSeconds + (60 * timeDifferenceMinutes) + (60 * 60 * timeDifferenceHours);
+
                         Integer currentWinningTime = dao.getWinnerTime(sid);
 
                         if(currentWinningTime == -1 || currentWinningTime > timeDifference) {
@@ -176,7 +194,7 @@ public class GameService {
         Integer player1Progress = dao.getPlayer1Progress(sid);
         Integer player2Progress = dao.getPlayer2Progress(sid);
         try {
-            if (player1Progress == 3 && player2Progress == 3) {
+            if (player1Progress >= 3 && player2Progress >= 3) {
                 String flagName = dao.getFlag(sid);
                 Integer bestTime = dao.getBestTime(flagName);
                 if(winningTimeInSeconds < bestTime || bestTime == -1) {

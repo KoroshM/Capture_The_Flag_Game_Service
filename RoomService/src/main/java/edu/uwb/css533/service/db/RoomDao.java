@@ -31,7 +31,7 @@ public interface RoomDao {
     @SqlUpdate("update room_sessions set num_players = :num where session_id = :id")
     void updateNumPlayers(@Bind("num") int num, @Bind("id") int id);
 
-    @SqlUpdate("update room_sessions set player2_id = :p2_id where session_id = :s_id")
+    @SqlUpdate("update room_sessions set p2_id = :p2_id where session_id = :s_id")
     void updatePlayer2ID(@Bind("p2_id") int p2_id, @Bind("s_id") int s_id);
 
 //    @SqlUpdate("update player_information set active_session = :s_id where user_id = :id")

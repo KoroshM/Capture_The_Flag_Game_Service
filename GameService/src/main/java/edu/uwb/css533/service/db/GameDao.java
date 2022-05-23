@@ -28,19 +28,19 @@ public interface GameDao {
     @SqlQuery("select current_flag from room_sessions where session_id = :sid")
     String getFlag(@Bind("sid") int sid);
 
-    @SqlQuery("select feature1 from room_sessions where session_id = :sid")
+    @SqlQuery("select f1 from room_sessions where session_id = :sid")
     String getFeature1(@Bind("sid") int sid);
 
     @SqlQuery("select f1_code from room_sessions where session_id = :sid")
     Integer getFeature1Code(@Bind("sid") int sid);
 
-    @SqlQuery("select feature2 from room_sessions where session_id = :sid")
-    String getFeature2(@Bind("id") int sid);
+    @SqlQuery("select f2 from room_sessions where session_id = :sid")
+    String getFeature2(@Bind("sid") int sid);
 
     @SqlQuery("select f2_code from room_sessions where session_id = :sid")
     Integer getFeature2Code(@Bind("sid") int sid);
 
-    @SqlQuery("select feature3 from room_sessions where session_id = :sid")
+    @SqlQuery("select f3 from room_sessions where session_id = :sid")
     String getFeature3(@Bind("sid") int sid);
 
     @SqlQuery("select f3_code from room_sessions where session_id = :sid")
@@ -48,30 +48,30 @@ public interface GameDao {
 
 
 
-    @SqlQuery("select player1_id from room_sessions where session_id = :id")
-    Integer getPlayer1ID(@Bind("id") int id);
+    @SqlQuery("select p1_id from room_sessions where session_id = :sid")
+    Integer getPlayer1ID(@Bind("sid") int sid);
 
-    @SqlQuery("select player2_id from room_sessions where session_id = :id")
-    Integer getPlayer2ID(@Bind("id") int id);
+    @SqlQuery("select p2_id from room_sessions where session_id = :sid")
+    Integer getPlayer2ID(@Bind("sid") int sid);
 
-    @SqlQuery("select player1_progress from room_sessions where session_id = :id")
-    Integer getPlayer1Progress(@Bind("id") int id);
+    @SqlQuery("select p1_progress from room_sessions where session_id = :sid")
+    Integer getPlayer1Progress(@Bind("sid") int sid);
 
-    @SqlQuery("select player2_progress from room_sessions where session_id = :id")
-    Integer getPlayer2Progress(@Bind("id") int id);
+    @SqlQuery("select p2_progress from room_sessions where session_id = :sid")
+    Integer getPlayer2Progress(@Bind("sid") int sid);
 
-    @SqlUpdate("update room_sessions set player1_progress = :progress where session_id = :id")
-    void updatePlayer1Progress(@Bind("progress") int progress, @Bind("id") int id);
+    @SqlUpdate("update room_sessions set p1_progress = :progress where session_id = :sid")
+    void updatePlayer1Progress(@Bind("progress") int progress, @Bind("sid") int sid);
 
-    @SqlUpdate("update room_sessions set player2_progress = :progress where session_id = :id")
-    void updatePlayer2Progress(@Bind("progress") int progress, @Bind("id") int id);
+    @SqlUpdate("update room_sessions set p2_progress = :progress where session_id = :sid")
+    void updatePlayer2Progress(@Bind("progress") int progress, @Bind("sid") int sid);
 
 
-    @SqlQuery("select winner_id from room_sessions where session_id = :id")
-    Integer getWinner(@Bind("id") int id);
+    @SqlQuery("select winner_id from room_sessions where session_id = :sid")
+    Integer getWinner(@Bind("sid") int sid);
 
-    @SqlUpdate("update room_sessions set winner_id = :wid where session_id = :id")
-    void updateWinner(@Bind("wid") int wid, @Bind("id") int id);
+    @SqlUpdate("update room_sessions set winner_id = :wid where session_id = :sid")
+    void updateWinner(@Bind("wid") int wid, @Bind("sid") int sid);
 
     @SqlQuery("select winner_time_in_seconds from room_sessions where session_id = :sid")
     Integer getWinnerTime(@Bind("sid") int sid);

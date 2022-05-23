@@ -41,7 +41,7 @@ public class RoomResource {
 
     @GET
     @Path("/join")
-    public Response joinRoom(@QueryParam("user_id") int id, @QueryParam("session_id") int sid) {
+    public Response joinRoom(@QueryParam("user_id") int uid, @QueryParam("session_id") int sid) {
         Integer numPlayers = dao.checkNumPlayers(sid);
         try {
             //session id does not exist
@@ -52,7 +52,7 @@ public class RoomResource {
                 return Response.ok(-2).build();
             } else {
                 dao.updateNumPlayers(2, sid);
-                dao.updatePlayer2ID(id, sid);
+                dao.updatePlayer2ID(uid, sid);
                 return Response.ok(sid).build();
             }
         } catch (Exception e) {

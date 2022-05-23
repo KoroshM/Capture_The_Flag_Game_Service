@@ -7,7 +7,7 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 public interface PlayerDao {
 
     @SqlUpdate("insert into player_information (username, password, user_id, logged_in) values (:username, :password, :user_id, :logged_in)")
-    void insert(@Bind("username") String username, @Bind("pass") String password, @Bind("user_id") int user_id, @Bind("logged_in") boolean logged_in);
+    void insert(@Bind("username") String username, @Bind("password") String password, @Bind("user_id") int user_id, @Bind("logged_in") boolean logged_in);
 
     @SqlQuery("select user_id from player_information where username = :username")
     Integer findUserIdByUsername(@Bind("username") String username);
