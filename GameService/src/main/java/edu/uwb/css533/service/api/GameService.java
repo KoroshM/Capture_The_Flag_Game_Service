@@ -56,9 +56,9 @@ public class GameService {
                 gameStart = System.currentTimeMillis();
                 dao.updateGameStatus(true, sid);
                 dao.updateGameStartTime(gameStart, sid);
-                return Response.ok(flagName + "<br>" + feature1_code + feature1 + "<br>" +
-                        feature2_code + feature2 + "<br>" + feature3_code + feature3 +
-                        "<br>" + gameStart).build();
+                return Response.ok(flagName + "," + feature1_code + feature1 + "," +
+                        feature2_code + feature2 + "," + feature3_code + feature3 +
+                        "," + gameStart).build();
             } else {
                 if(status == true) {
                     String flagName = dao.getFlag(sid);
@@ -69,9 +69,9 @@ public class GameService {
                     String feature3 = dao.getFeature3(sid);
                     Integer feature3_code = dao.getFeature3Code(sid);
                     gameStart = dao.getGameStartTime(sid);
-                    return Response.ok(flagName + "<br>" + feature1_code + feature1 + "<br>" +
-                            feature2_code + feature2 + "<br>" + feature3_code + feature3 +
-                            "<br>" + gameStart).build();
+                    return Response.ok(flagName + "," + feature1_code + feature1 + "," +
+                            feature2_code + feature2 + "," + feature3_code + feature3 +
+                            "," + gameStart).build();
                 }
                 return Response.ok(-1).build();
             }
@@ -168,7 +168,7 @@ public class GameService {
                 if(winningTimeInSeconds < bestTime || bestTime == -1) {
                     dao.updateBestTime(winningTimeInSeconds, flagName);
                 }
-                return Response.ok(winningPlayerID + " " + winningTimeInSeconds).build();
+                return Response.ok(winningTimeInSeconds).build();
             } else {
                 return Response.ok(-1).build();
             }
