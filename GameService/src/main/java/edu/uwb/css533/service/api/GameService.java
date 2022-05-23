@@ -130,10 +130,7 @@ public class GameService {
                         Integer timeDifference = gameCompleted.getSecond() - startGameTime.getSecond();
                         Integer currentWinningTime = dao.getWinnerTime(sid);
 
-                        if(currentWinningTime == -1) {
-                            dao.updateWinnerTime(timeDifference, sid);
-                            dao.updateWinner(uid, sid);
-                        } else if(currentWinningTime > timeDifference) {
+                        if(currentWinningTime == -1 || currentWinningTime > timeDifference) {
                             dao.updateWinnerTime(timeDifference, sid);
                             dao.updateWinner(uid, sid);
                         }
@@ -148,16 +145,13 @@ public class GameService {
                         Integer timeDifference = gameCompleted.getSecond() - startGameTime.getSecond();
                         Integer currentWinningTime = dao.getWinnerTime(sid);
 
-                        if(currentWinningTime == -1) {
-                            dao.updateWinnerTime(timeDifference, sid);
-                            dao.updateWinner(uid, sid);
-                        } else if(currentWinningTime > timeDifference) {
+                        if(currentWinningTime == -1 || currentWinningTime > timeDifference) {
                             dao.updateWinnerTime(timeDifference, sid);
                             dao.updateWinner(uid, sid);
                         }
                     }
                 }
-                
+
                 if(feature == feature1_code) {
                     return Response.ok(1).build();
                 } else if (feature == feature2_code) {
@@ -183,6 +177,11 @@ public class GameService {
         Integer player2Progress = dao.getPlayer2Progress(sid);
         try {
             if (player1Progress == 3 && player2Progress == 3) {
+                String flagName = dao.getFlag(sid);
+                Integer bestTime = dao.getBestTime(flagName);
+                if(winningTimeInSeconds < bestTime || bestTime == -1) {
+                    dao.updateBestTime(winningTimeInSeconds, flagName);
+                }
                 return Response.ok(winningPlayerID + " " + winningTimeInSeconds).build();
             } else {
                 return Response.ok(-1).build();

@@ -79,5 +79,11 @@ public interface GameDao {
     @SqlUpdate("update room_sessions set winner_time_in_seconds = :w_time where session_id = :sid")
     void updateWinnerTime(@Bind("w_time") Integer w_time, @Bind("sid") int sid);
 
+    @SqlQuery("select best_time_in_seconds from flags where flag_name = :flag_name")
+    Integer getBestTime(@Bind("flag_name") String flag_name);
+
+    @SqlUpdate("update flags set best_time_in_seconds = :b_time where flag_name = :flag_name")
+    void updateBestTime(@Bind("b_time") Integer b_time, @Bind("flag_name") String flag_name);
+
 
 }
