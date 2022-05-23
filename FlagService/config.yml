@@ -22,7 +22,7 @@ database:
   password: CaptureTheFlag
 
   # the JDBC URL
-  url: jdbc:postgresql://localhost:5432/capture_the_flag
+  url: jdbc:postgresql://127.0.01:5432/capture_the_flag
 
   # any properties specific to your JDBC driver:
   properties:

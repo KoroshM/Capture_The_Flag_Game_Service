@@ -52,7 +52,7 @@ public class GameService {
             Integer p1_id = dao.getPlayer1ID(sid);
 
             long gameStart;
-            if(uid == p1_id){
+            if(uid == p1_id && status == false){
                 gameStart = System.currentTimeMillis();
                 dao.updateGameStatus(true, sid);
                 dao.updateGameStartTime(gameStart, sid);
@@ -76,7 +76,7 @@ public class GameService {
 
     public HttpRequest requestFlag(int id) throws URISyntaxException {
         return HttpRequest.newBuilder()
-                .uri(new URI("http://localhost:8060/flag/get_flag?session_id=" + id))
+                .uri(new URI("http://127.0.01:8060/flag/get_flag?session_id=" + id))
                 .GET()
                 .timeout(Duration.ofSeconds(10))
                 .build();
@@ -153,8 +153,9 @@ public class GameService {
         long winningTimeInSeconds = dao.getWinnerTime(sid);
         Integer player1Progress = dao.getPlayer1Progress(sid);
         Integer player2Progress = dao.getPlayer2Progress(sid);
+        Integer player2ID = dao.getPlayer2ID(sid);
         try {
-            if (player1Progress >= 3 && player2Progress >= 3) {
+            if ((player1Progress >= 3 && player2ID == -1) || (player1Progress >= 3 && player2Progress >= 3)) {
                 String flagName = dao.getFlag(sid);
                 long bestTime = dao.getBestTime(flagName);
                 if(winningTimeInSeconds < bestTime || bestTime == -1) {
