@@ -18,10 +18,10 @@ public interface GameDao {
     void updateGameStatus(@Bind("status") boolean status, @Bind("sid") int sid);
 
     @SqlQuery("select start_time from room_sessions where session_id = :sid")
-    LocalDateTime getGameStartTime(@Bind("sid") int sid);
+    long getGameStartTime(@Bind("sid") int sid);
 
     @SqlUpdate("update room_sessions set start_time = :start_time where session_id = :sid")
-    void updateGameStartTime(@Bind("start_time") LocalDateTime start_time, @Bind("sid") int sid);
+    void updateGameStartTime(@Bind("start_time") long start_time, @Bind("sid") int sid);
 
 
 
@@ -74,16 +74,16 @@ public interface GameDao {
     void updateWinner(@Bind("wid") int wid, @Bind("sid") int sid);
 
     @SqlQuery("select winner_time_in_seconds from room_sessions where session_id = :sid")
-    Integer getWinnerTime(@Bind("sid") int sid);
+    long getWinnerTime(@Bind("sid") int sid);
 
     @SqlUpdate("update room_sessions set winner_time_in_seconds = :w_time where session_id = :sid")
-    void updateWinnerTime(@Bind("w_time") Integer w_time, @Bind("sid") int sid);
+    void updateWinnerTime(@Bind("w_time") long w_time, @Bind("sid") int sid);
 
     @SqlQuery("select best_time_in_seconds from flags where flag_name = :flag_name")
-    Integer getBestTime(@Bind("flag_name") String flag_name);
+    long getBestTime(@Bind("flag_name") String flag_name);
 
     @SqlUpdate("update flags set best_time_in_seconds = :b_time where flag_name = :flag_name")
-    void updateBestTime(@Bind("b_time") Integer b_time, @Bind("flag_name") String flag_name);
+    void updateBestTime(@Bind("b_time") long b_time, @Bind("flag_name") String flag_name);
 
 
 }

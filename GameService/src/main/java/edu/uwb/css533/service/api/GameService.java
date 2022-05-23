@@ -53,9 +53,9 @@ public class GameService {
             Integer feature3_code = dao.getFeature3Code(sid);
             Integer p1_id = dao.getPlayer1ID(sid);
 
-            LocalDateTime gameStart;
+            long gameStart;
             if(uid == p1_id){
-                gameStart = LocalDateTime.now();
+                gameStart = System.currentTimeMillis();
                 dao.updateGameStatus(true, sid);
                 dao.updateGameStartTime(gameStart, sid);
                 return Response.ok(flagName + " " + feature1 + " " + feature1_code + " " +
@@ -133,16 +133,10 @@ public class GameService {
                     progress++;
                     dao.updatePlayer1Progress(progress, sid);
                     if(progress == 3) {
-                        LocalDateTime gameCompleted = LocalDateTime.now();
-                        System.out.println(gameCompleted);
-                        LocalDateTime startGameTime = dao.getGameStartTime(sid);
-                        Integer timeDifferenceSeconds = gameCompleted.getSecond() - startGameTime.getSecond();
-                        Integer timeDifferenceMinutes = gameCompleted.getMinute() - startGameTime.getMinute();
-                        Integer timeDifferenceHours = gameCompleted.getHour() - startGameTime.getHour();
-                        Integer timeDifference = timeDifferenceSeconds + (60 * timeDifferenceMinutes) + (60 * 60 * timeDifferenceHours);
-
-                        Integer currentWinningTime = dao.getWinnerTime(sid);
-
+                        long gameCompleted = System.currentTimeMillis();
+                        long startGameTime = dao.getGameStartTime(sid);
+                        long currentWinningTime = dao.getWinnerTime(sid);
+                        long timeDifference = gameCompleted - startGameTime;
                         if(currentWinningTime == -1 || currentWinningTime > timeDifference) {
                             dao.updateWinnerTime(timeDifference, sid);
                             dao.updateWinner(uid, sid);
@@ -153,16 +147,10 @@ public class GameService {
                     progress++;
                     dao.updatePlayer2Progress(progress, sid);
                     if(progress == 3) {
-                        LocalDateTime gameCompleted = LocalDateTime.now();
-                        System.out.println(gameCompleted);
-                        LocalDateTime startGameTime = dao.getGameStartTime(sid);
-                        Integer timeDifferenceSeconds = gameCompleted.getSecond() - startGameTime.getSecond();
-                        Integer timeDifferenceMinutes = gameCompleted.getMinute() - startGameTime.getMinute();
-                        Integer timeDifferenceHours = gameCompleted.getHour() - startGameTime.getHour();
-                        Integer timeDifference = timeDifferenceSeconds + (60 * timeDifferenceMinutes) + (60 * 60 * timeDifferenceHours);
-
-                        Integer currentWinningTime = dao.getWinnerTime(sid);
-
+                        long gameCompleted = System.currentTimeMillis();
+                        long startGameTime = dao.getGameStartTime(sid);
+                        long currentWinningTime = dao.getWinnerTime(sid);
+                        long timeDifference = gameCompleted - startGameTime;
                         if(currentWinningTime == -1 || currentWinningTime > timeDifference) {
                             dao.updateWinnerTime(timeDifference, sid);
                             dao.updateWinner(uid, sid);
@@ -190,13 +178,13 @@ public class GameService {
     @Path("/end_game")
     public Response endGame(@QueryParam("session_id") int sid) {
         Integer winningPlayerID = dao.getWinner(sid);
-        Integer winningTimeInSeconds = dao.getWinnerTime(sid);
+        long winningTimeInSeconds = dao.getWinnerTime(sid);
         Integer player1Progress = dao.getPlayer1Progress(sid);
         Integer player2Progress = dao.getPlayer2Progress(sid);
         try {
             if (player1Progress >= 3 && player2Progress >= 3) {
                 String flagName = dao.getFlag(sid);
-                Integer bestTime = dao.getBestTime(flagName);
+                long bestTime = dao.getBestTime(flagName);
                 if(winningTimeInSeconds < bestTime || bestTime == -1) {
                     dao.updateBestTime(winningTimeInSeconds, flagName);
                 }
