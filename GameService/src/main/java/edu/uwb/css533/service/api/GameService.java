@@ -157,7 +157,14 @@ public class GameService {
                         }
                     }
                 }
-                return Response.ok(0).build();
+                
+                if(feature == feature1_code) {
+                    return Response.ok(1).build();
+                } else if (feature == feature2_code) {
+                    return Response.ok(2).build();
+                } else {
+                    return Response.ok(3).build();
+                }
             } catch (Exception e) {
                 return Response.ok(-1).build();
             }
