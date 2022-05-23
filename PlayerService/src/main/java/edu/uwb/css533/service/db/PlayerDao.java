@@ -12,9 +12,6 @@ public interface PlayerDao {
     @SqlQuery("select user_id from player_information where username = :username")
     Integer findUserIdByUsername(@Bind("username") String username);
 
-//    @SqlQuery("select username from player_information where user_id = :id")
-//    String findUsernameByUserId(@Bind("id") int id);
-
     @SqlQuery("select password from player_information where user_id = :user_id")
     String findPasswordByUserId(@Bind("user_id") int user_id);
 

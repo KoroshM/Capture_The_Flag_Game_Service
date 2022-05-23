@@ -4,8 +4,6 @@ import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
-import java.time.LocalDateTime;
-
 public interface GameDao {
 
     @SqlQuery("select num_players from room_sessions where session_id = :sid")
@@ -73,16 +71,16 @@ public interface GameDao {
     @SqlUpdate("update room_sessions set winner_id = :wid where session_id = :sid")
     void updateWinner(@Bind("wid") int wid, @Bind("sid") int sid);
 
-    @SqlQuery("select winner_time_in_seconds from room_sessions where session_id = :sid")
+    @SqlQuery("select winner_time_in_ms from room_sessions where session_id = :sid")
     long getWinnerTime(@Bind("sid") int sid);
 
-    @SqlUpdate("update room_sessions set winner_time_in_seconds = :w_time where session_id = :sid")
+    @SqlUpdate("update room_sessions set winner_time_in_ms = :w_time where session_id = :sid")
     void updateWinnerTime(@Bind("w_time") long w_time, @Bind("sid") int sid);
 
-    @SqlQuery("select best_time_in_seconds from flags where flag_name = :flag_name")
+    @SqlQuery("select best_time_in_ms from flags where flag_name = :flag_name")
     long getBestTime(@Bind("flag_name") String flag_name);
 
-    @SqlUpdate("update flags set best_time_in_seconds = :b_time where flag_name = :flag_name")
+    @SqlUpdate("update flags set best_time_in_ms = :b_time where flag_name = :flag_name")
     void updateBestTime(@Bind("b_time") long b_time, @Bind("flag_name") String flag_name);
 
 

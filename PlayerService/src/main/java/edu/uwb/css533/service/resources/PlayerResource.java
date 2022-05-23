@@ -9,7 +9,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 @Path("/player")
-//@Produces(MediaType.APPLICATION_JSON)
 public class PlayerResource {
 
     private Jdbi jdbi;
@@ -21,20 +20,6 @@ public class PlayerResource {
         this.dao = dao;
         user_id = 0;
     }
-
-//    @GET
-//    @Path("/create_new_user")
-//    public Response createNewUser(@QueryParam("username") String username, @QueryParam("password") String password) {
-//
-//        Integer result = dao.findUserIdByUsername(username);
-//        if(result == null) {
-//            dao.insert(username, password, user_id++, false, -1, false);
-//            int correctPrint = user_id - 1;
-//            return Response.ok("User created with ID = " + correctPrint + ".").build();
-//        } else {
-//            return Response.ok("User already exists.").build();
-//        }
-//    }
 
     @GET
     @Path("/login")

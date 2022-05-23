@@ -75,10 +75,4 @@ public class RoomResource {
         return Response.ok(response).build();
 
     }
-
-//    @GET
-//    @Path("/check_feature_code")
-//    public Response checkCode(@QueryParam("feature_code") int code, @QueryParam("session_id") int id) {
-//        return Response.ok("not done").build();
-//    }
 }

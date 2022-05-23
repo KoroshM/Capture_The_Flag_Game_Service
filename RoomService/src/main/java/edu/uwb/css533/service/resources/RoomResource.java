@@ -7,7 +7,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import java.util.Random;
 
 @Path("/room")
 public class RoomResource {
@@ -26,7 +25,7 @@ public class RoomResource {
     public Response createNewRoom(@QueryParam("user_id") int uid) {
         try {
 
-            dao.insert(session_id++, false, null, null,
+            dao.insert(session_id++, false, -1, null,
                     null, -1, null, -1, null,
                     -1, 1, uid, -1, 0,
                     0, -1, -1);
@@ -60,10 +59,4 @@ public class RoomResource {
             return Response.ok(-3).build();
         }
     }
-
-//    @GET
-//    @Path("/check_feature_code")
-//    public Response checkCode(@QueryParam("feature_code") int code, @QueryParam("session_id") int id) {
-//        return Response.ok("not done").build();
-//    }
 }

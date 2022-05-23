@@ -27,33 +27,6 @@ public class PlayerResource {
                 .build();
     }
 
-//    @GET
-//    @Path("/new_user")
-//    public Response createNewUser(@QueryParam("username") String username, @QueryParam("password") String password) {
-//        try {
-//            return getNewUser(username, password);
-//        } catch (Exception e) {
-//            return Response.ok("Exception thrown " + e.getMessage()).build();
-//        }
-//
-//    }
-//
-//    public HttpRequest requestNewUser(String username, String password) throws URISyntaxException {
-//        return HttpRequest.newBuilder()
-//                .uri(new URI("http://localhost:8090/player/create_new_user?username=" + username
-//                        + "&password=" + password))
-//                .GET()
-//                .timeout(Duration.ofSeconds(10))
-//                .build();
-//    }
-//
-//    public Response getNewUser(String username, String password) throws Exception {
-//        HttpRequest request = requestNewUser(username, password);
-//        String response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString()).body();
-//        return Response.ok(response).build();
-//
-//    }
-
     @GET
     @Path("/login")
     public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {

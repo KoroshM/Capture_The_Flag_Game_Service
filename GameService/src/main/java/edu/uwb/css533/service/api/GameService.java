@@ -13,8 +13,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Random;
 
 @Path("/capture_the_flag")
 public class GameService {
@@ -58,15 +56,15 @@ public class GameService {
                 gameStart = System.currentTimeMillis();
                 dao.updateGameStatus(true, sid);
                 dao.updateGameStartTime(gameStart, sid);
-                return Response.ok(flagName + " " + feature1 + " " + feature1_code + " " +
-                        feature2 + " " + feature2_code + " " + feature3 + " " + feature3_code +
-                        " " + gameStart).build();
+                return Response.ok(flagName + "<br>" + feature1_code + feature1 + "<br>" +
+                        feature2_code + feature2 + "<br>" + feature3_code + feature3 +
+                        "<br>" + gameStart).build();
             } else {
                 if(status == true) {
                     gameStart = dao.getGameStartTime(sid);
-                    return Response.ok(flagName + " " + feature1 + " " + feature1_code + " " +
-                            feature2 + " " + feature2_code + " " + feature3 + " " + feature3_code +
-                            " " + gameStart).build();
+                    return Response.ok(flagName + "<br>" + feature1_code + feature1 + "<br>" +
+                            feature2_code + feature2 + "<br>" + feature3_code + feature3 +
+                            "<br>" + gameStart).build();
                 }
                 return Response.ok(-1).build();
             }
@@ -91,35 +89,9 @@ public class GameService {
 
     }
 
-//    @GET
-//    @Path("/check_game")
-//    public Response checkStartGame(@QueryParam("session_id") int sid) {
-//        Boolean status = dao.getGameStatus(sid);
-//        if(status == true) {
-//            try {
-//                String flagName = dao.getFlag(sid);
-//                String feature1 = dao.getFeature1(sid);
-//                Integer feature1_code = dao.getFeature1Code(sid);
-//                String feature2 = dao.getFeature2(sid);
-//                Integer feature2_code = dao.getFeature2Code(sid);
-//                String feature3 = dao.getFeature3(sid);
-//                Integer feature3_code = dao.getFeature3Code(sid);
-//
-//                return Response.ok(flagName + " " + feature1 + " " + feature1_code + " " +
-//                        feature2 + " " + feature2_code + " " + feature3 + " " + feature3_code +
-//                        " " + gameStart).build();
-//            } catch (Exception e) {
-//                return Response.ok(-1).build();
-//            }
-//        } else {
-//            return Response.ok(-2).build();
-//        }
-//    }
-
     @GET
     @Path("/check_feature")
     public Response checkFeature(@QueryParam("session_id") int sid, @QueryParam("user_id") int uid, @QueryParam("feature") int feature) {
-//
         Integer feature1_code = dao.getFeature1Code(sid);
         Integer feature2_code = dao.getFeature2Code(sid);
         Integer feature3_code = dao.getFeature3Code(sid);
