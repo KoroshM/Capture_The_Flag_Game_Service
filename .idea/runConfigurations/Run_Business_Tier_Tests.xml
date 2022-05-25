@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Business Tier Tests" type="CompoundRunConfigurationType">
+    <toRun name="FlagServiceApplication" type="Application" />
+    <toRun name="PlayerServiceApplication" type="Application" />
+    <toRun name="RoomServiceApplication" type="Application" />
+    <toRun name="TestSuite" type="Application" />
+    <method v="2" />
+  </configuration>
+</component>
