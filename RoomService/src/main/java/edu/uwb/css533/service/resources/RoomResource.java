@@ -48,7 +48,7 @@ public class RoomResource {
                 return Response.ok(-1).build();
             //there are already two (max) players in the session
             } else if (numPlayers == 2) {
-                return Response.ok(-2).build();
+                return Response.ok(-1).build();
             } else {
                 dao.updateNumPlayers(2, sid);
                 dao.updatePlayer2ID(uid, sid);
@@ -56,7 +56,7 @@ public class RoomResource {
             }
         } catch (Exception e) {
             //return Response.ok(e.getMessage()).build();
-            return Response.ok(-3).build();
+            return Response.ok(-1).build();
         }
     }
 }
