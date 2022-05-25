@@ -25,7 +25,7 @@ public class FlagResource {
     @Path("/get_flag")
     public Response getFlag(@QueryParam("session_id") int sid) {
         Random rand = new Random();
-        int randNum = rand.nextInt(3); // pass in total number of flags in database, using 3 here
+        int randNum = rand.nextInt(2); // pass in total number of flags in database (starting at 0), using 2 here because there are currently 3 flags
         String flagName = dao.getFlag(randNum);
         String feature1 = dao.getFeature1(randNum);
         Integer feature1_code = dao.getFeatureCode(feature1);

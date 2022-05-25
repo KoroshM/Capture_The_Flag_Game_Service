@@ -144,6 +144,8 @@ public class GameService {
                 } else {
                     return Response.ok(3).build();
                 }
+
+//                return Response.ok(feature).build();
             } catch (Exception e) {
                 return Response.ok(-1).build();
             }
@@ -168,6 +170,7 @@ public class GameService {
                 if(winningTimeInSeconds < bestTime || bestTime == -1) {
                     dao.updateBestTime(winningTimeInSeconds, flagName);
                 }
+                bestTime = dao.getBestTime(flagName);
                 return Response.ok(winningTimeInSeconds + "," + bestTime).build();
             } else {
                 return Response.ok(-1).build();
