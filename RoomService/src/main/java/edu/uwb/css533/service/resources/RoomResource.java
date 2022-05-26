@@ -24,13 +24,18 @@ public class RoomResource {
     @Path("/new")
     public Response createNewRoom(@QueryParam("user_id") int uid) {
         try {
+            String passwordCheck = dao.findPasswordByUserId(uid);
+            if(passwordCheck != null) {
+                dao.insert(session_id++, false, -1, null,
+                        null, -1, null, -1, null,
+                        -1, 1, uid, -1, 0,
+                        0, -1, -1);
+                int correctPrint = session_id - 1;
+                return Response.ok(correctPrint).build();
+            } else {
+                return Response.ok(-1).build();
+            }
 
-            dao.insert(session_id++, false, -1, null,
-                    null, -1, null, -1, null,
-                    -1, 1, uid, -1, 0,
-                    0, -1, -1);
-            int correctPrint = session_id - 1;
-            return Response.ok(correctPrint).build();
         } catch (Exception e) {
             //return Response.ok(e.getMessage()).build();
             return Response.ok(-1).build();

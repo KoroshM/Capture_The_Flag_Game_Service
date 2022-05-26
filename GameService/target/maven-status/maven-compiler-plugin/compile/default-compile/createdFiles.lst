@@ -1,5 +1,6 @@
 edu/uwb/css533/service/GameServiceConfiguration.class
 edu/uwb/css533/service/api/GameService.class
+edu/uwb/css533/service/TestSuite.class
 edu/uwb/css533/service/db/GameDao.class
 edu/uwb/css533/service/GameServiceApplication.class
 edu/uwb/css533/service/resources/PlayerResource.class

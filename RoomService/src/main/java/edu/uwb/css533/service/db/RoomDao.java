@@ -30,4 +30,7 @@ public interface RoomDao {
     @SqlUpdate("update room_sessions set p2_id = :p2_id where session_id = :s_id")
     void updatePlayer2ID(@Bind("p2_id") int p2_id, @Bind("s_id") int s_id);
 
+    @SqlQuery("select password from player_information where user_id = :user_id")
+    String findPasswordByUserId(@Bind("user_id") int user_id);
+
 }

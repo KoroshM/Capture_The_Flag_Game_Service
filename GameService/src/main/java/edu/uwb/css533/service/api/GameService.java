@@ -37,7 +37,7 @@ public class GameService {
         Integer numPlayers = dao.checkNumPlayers(sid);
         //session does not exist
         if(numPlayers == null) {
-            return Response.ok(-3).build();
+            return Response.ok(-1).build();
         }
         try {
             Boolean status = dao.getGameStatus(sid);
@@ -77,7 +77,7 @@ public class GameService {
             }
 
         } catch (Exception e) {
-            return Response.ok(e.getMessage()).build();
+            return Response.ok(-1).build();
         }
     }
 
@@ -145,7 +145,6 @@ public class GameService {
                     return Response.ok(3).build();
                 }
 
-//                return Response.ok(feature).build();
             } catch (Exception e) {
                 return Response.ok(-1).build();
             }
@@ -158,6 +157,11 @@ public class GameService {
     @GET
     @Path("/end_game")
     public Response endGame(@QueryParam("session_id") int sid) {
+        Integer numPlayers = dao.checkNumPlayers(sid);
+        //session does not exist
+        if(numPlayers == null) {
+            return Response.ok(-1).build();
+        }
         Integer winningPlayerID = dao.getWinner(sid);
         long winningTimeInSeconds = dao.getWinnerTime(sid);
         Integer player1Progress = dao.getPlayer1Progress(sid);
