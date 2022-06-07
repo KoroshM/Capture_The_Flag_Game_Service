@@ -1,0 +1,18 @@
+The application is written and tested in the IntelliJ IDEA.
+
+The business tier is split into separate services running on their own servers.
+Services communicate through HTTP requests.
+The project will come in the form of 4 separate modules within the project folder:
+ - FlagService
+ - GameService
+ - PlayerService
+ - RoomService
+
+The run configuration for the test suite is stored in 'Run_Business_Tier_Tests.xml'
+To run these tests, ensure the included 'runConfigurations' folder copied into the top-level '.idea' folder in the project directory.
+Run this suite using the Run Configuration dropdown on the top-right of the IDEA.
+
+The test suite is a manually written suite of tests that runs on the client-server interface.
+The suite file is configured to be in the GameService module in the same folder as GameServiceApplication.java 
+  (Capture_The_Flag_Game/GameService/src/main/java/edu/uwb/css533/service/)
+A brief summary of the test results will be printed upon successful completion of the test suite.
